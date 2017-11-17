@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  PEER_NAME-ORG_NAME-NETWORK_NAME-couchdb:
+    container_name: PEER_NAME.ORG_NAME.NETWORK_NAME.couchdb
+    image: ${FABRIC_COUCHDB_FIXTURE_IMAGE}:${ARCH}-${FABRIC_COUCHDB_FIXTURE_TAG}
+    restart: always
+    volumes:
+      - /paic_data/ORG_NAME.NETWORK_NAME.com/PEER_NAME/peer_data/couchdb/:/opt/couchdb/data
+#    ports:
+#      - 5984:5984
+
+  PEER_NAME.ORG_NAME.NETWORK_NAME.com:
+    hostname: PEER_NAME.ORG_NAME.NETWORK_NAME.com
+    container_name: PEER_NAME.ORG_NAME.NETWORK_NAME.com
+    image: ${FABRIC_PEER_FIXTURE_IMAGE}:${ARCH}-${FABRIC_PEER_FIXTURE_TAG}
+    restart: always
+    environment:
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=PEER_NAME_default
+      - CORE_LOGGING_LEVEL=INFO
+      - CORE_PEER_ID=PEER_NAME.ORG_NAME.NETWORK_NAME.com
+      - CORE_PEER_ADDRESS=PEER_NAME.ORG_NAME.NETWORK_NAME.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=PEER_NAME.ORG_NAME.NETWORK_NAME.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=PEER_NAME.ORG_NAME.NETWORK_NAME.com:7051
+      - CORE_PEER_LOCALMSPID=ORG_MSP_ID
+      - CORE_PEER_TLS_ENABLED=${ENABLE_TLS}
+      - CORE_PEER_ENDORSER_ENABLED=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=PEER_NAME-ORG_NAME-NETWORK_NAME-couchdb:5984
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start --peer-defaultchain=false
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../../../blockchainkey/crypto-config/peerOrganizations/ORG_NAME.NETWORK_NAME.com/peers/PEER_NAME.ORG_NAME.NETWORK_NAME.com/msp:/etc/hyperledger/fabric/msp
+      - ../../../blockchainkey/crypto-config/peerOrganizations/ORG_NAME.NETWORK_NAME.com/peers/PEER_NAME.ORG_NAME.NETWORK_NAME.com/tls:/etc/hyperledger/fabric/tls
+      - /paic_data/ORG_NAME.NETWORK_NAME.com/PEER_NAME/peer_data/fabric/:/var/hyperledger/production
+    depends_on:
+      - PEER_NAME-ORG_NAME-NETWORK_NAME-couchdb
+    ports:
+      - PEER_PORT1:7051
+      - PEER_PORT2:7053

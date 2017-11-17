@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+  KAFKA_NAME:
+    container_name: KAFKA_NAME
+    image: ${FABRIC_KAFKA_FIXTURE_IMAGE}:${ARCH}-${FABRIC_KAFKA_FIXTURE_TAG}
+    restart: always
+    environment:
+      - KAFKA_BROKER_ID=KFK_BK_ID
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_MESSAGE_MAX_BYTES=103809024
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=103809024
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0:2181,zookeeper1:2181,zookeeper2:2181
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_ADVERTISED_HOST_NAME=KFK_ADV_HN
+      - KAFKA_ADVERTISED_PORT=KFK_ADV_PT
+      - KAFKA_LOG_DIRS=/paic/log
+    volumes:
+      - "/paic_data/KAFKA_NAME/runlogs:/opt/kafka/logs"
+      - "/paic_data/KAFKA_NAME/datalogs:/paic/log"
+    ports:
+      - KAFKA_PORT:9092
+    network_mode: host
+    extra_hosts:
+      - zookeeper0:zookeeper0_extra_host_ip
+      - zookeeper1:zookeeper1_extra_host_ip
+      - zookeeper2:zookeeper2_extra_host_ip
+      - kafka0:kafka0_extra_host_ip
+      - kafka1:kafka1_extra_host_ip
+      - kafka2:kafka2_extra_host_ip

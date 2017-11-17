@@ -1,0 +1,155 @@
+client:
+ tls:
+  enabled: false
+
+ security:
+  enabled: true
+  hashAlgorithm: "SHA2"
+  level: 256
+
+ tcert:
+  batch:
+    size: 200
+
+ logging:  
+  level: DEBUG
+
+ keystore:
+  path: /tmp/msp
+
+ cryptoconfig:
+  path: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config"
+
+ connection:
+   timeout:
+    peer:
+     endorser: 3s
+     eventHub: 3s
+     eventReg: 3s
+    orderer: 3s
+
+# network provides a static definition of a Hyperledger Fabric network
+ network:
+  # list of ordering service nodes
+  orderers:
+   # orderer name
+   orderer0:
+    host: "localhost"
+    port: 7050
+    tls:
+     # Certificate location absolute path
+     certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/msp/cacerts/ca.example.com-cert.pem"
+     # For testing only: overrides the virtual host name of the authority
+     serverHostOverride: "orderer.example.com"
+  # ap of member organizations forming the network
+  organizations:
+    # Org1 name
+    peerorg1:
+      # Membership Service Provider ID for this organization
+      mspID: "Org1MSP"
+      # CA config defines the fabric-ca instance that issues identities for this org
+      ca:
+       # TLS secured connections with the CA
+       tlsEnabled: false
+       # CA name
+       name: "ca-org1"
+       # CA URL. Note: https prefix required for TLS
+       serverURL: "http://ca_peerOrg1:7054"
+       # Configuration for mutual TLS with the CA
+       tls:
+        # Comma-Separated list of paths
+        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/tls/ca.crt"
+        client:
+         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/tls/server.crt"
+      # Peers that are part of this organization
+      peers:
+       # Peer name
+       peer0:
+        host: "peer0.org1.example.com"
+        port: 7051
+        eventHost: "peer0.org1.example.com"
+        eventPort: 7053
+        primary: false
+        tls:
+         # Certificate location absolute path
+         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/cacerts/ca.org1.example.com-cert.pem"
+         serverHostOverride: "peer0.org1.example.com"
+       peer1:
+        host: "peer1.org1.example.com"
+        port: 7051
+        eventHost: "peer1.org1.example.com"
+        eventPort: 7053
+        primary: false
+        tls:
+         # Certificate location absolute path
+         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/cacerts/ca.org1.example.com-cert.pem"
+         serverHostOverride: "peer1.org1.example.com"
+    # Org2
+    peerorg2:
+      mspID: "Org2MSP"
+      ca:
+       tlsEnabled: false
+       name: "ca-org2"
+       serverURL: "http://ca_peerOrg2:7054"
+       tls:
+        # Comma-Separated list of paths
+        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/tls/ca.crt"
+        client:
+         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/tls/server.crt"
+      peers:
+       peer0:
+        host: "peer0.org2.example.com"
+        port: 7051
+        eventHost: "peer0.org2.example.com"
+        eventPort: 7053
+        primary: true
+        tls:
+         # Certificate location absolute path
+         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/cacerts/ca.org2.example.com-cert.pem"
+         serverHostOverride: "peer0.org2.example.com"
+       peer1:
+        host: "peer1.org2.example.com"
+        port: 7051
+        eventHost: "peer1.org2.example.com"
+        eventPort: 7053
+        primary: false
+        tls:
+         # Certificate location absolute path
+         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/cacerts/ca.org2.example.com-cert.pem"
+         serverHostOverride: "peer1.org2.example.com"
+   # Org3
+    peerorg3:
+      mspID: "Org3MSP"
+      ca:
+       tlsEnabled: false
+       name: "ca-org3"
+       serverURL: "http://ca_peerOrg3:7054"
+       tls:
+        # Comma-Separated list of paths
+        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/tls/ca.crt"
+        client:
+         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/tls/server.crt"
+      peers:
+       peer0:
+        host: "peer0.org3.example.com"
+        port: 7051
+        eventHost: "peer0.org3.example.com"
+        eventPort: 7053
+        primary: true
+        tls:
+         # Certificate location absolute path
+         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/msp/cacerts/ca.org3.example.com-cert.pem"
+         serverHostOverride: "peer0.org3.example.com"
+       peer1:
+        host: "peer1.org3.example.com"
+        port: 7051
+        eventHost: "peer1.org3.example.com"
+        eventPort: 7053
+        primary: false
+        tls:
+         # Certificate location absolute path
+         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/msp/cacerts/ca.org3.example.com-cert.pem"
+         serverHostOverride: "peer1.org3.example.com"

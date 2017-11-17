@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.org1.lenovo.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_TLS_ENABLED=${ENABLE_TLS}
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/users/Admin@org1.lenovo.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    #command: /bin/bash -c 'sleep 30 && ./scripts/script.sh ${CHANNEL_NAME} ${NUM_CH}; sleep $TIMEOUT'
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./examples:/opt/gopath/src/github.com/hyperledger/fabric/examples
+        - ./../../fixtures/blockchainkey/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./../../fixtures/blockchainkey/channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    extra_hosts:
+     - orderer0.lenovo.com:101.89.66.163
+     - orderer1.lenovo.com:101.89.66.164
+     - orderer2.lenovo.com:101.89.66.231
+     - peer0.org1.lenovo.com:101.89.66.183
+     - peer0.org2.lenovo.com:101.89.66.184
+     - peer0.org3.lenovo.com:103.212.2.10
+     - peer0.org4.lenovo.com:103.212.2.13
+
