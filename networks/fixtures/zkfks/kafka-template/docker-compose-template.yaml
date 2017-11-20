@@ -1,5 +1,7 @@
 version: '2'
 
+NETWORKS_D
+
 services:
   KAFKA_NAME:
     container_name: KAFKA_NAME
@@ -18,8 +20,8 @@ services:
       - KAFKA_ADVERTISED_PORT=KFK_ADV_PT
       - KAFKA_LOG_DIRS=/paic/log
     volumes:
-      - "/paic_data/KAFKA_NAME/runlogs:/opt/kafka/logs"
-      - "/paic_data/KAFKA_NAME/datalogs:/paic/log"
+      - "DATA_DIR/paic_data/KAFKA_NAME/runlogs:/opt/kafka/logs"
+      - "DATA_DIR/paic_data/KAFKA_NAME/datalogs:/paic/log"
     ports:
       - KAFKA_PORT:9092
-    network_mode: host
+    NETWORKS_C

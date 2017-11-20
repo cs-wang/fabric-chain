@@ -1,5 +1,7 @@
 version: '2'
 
+NETWORKS_D
+
 services:
   ORDERER_NAME.NETWORK_NAME.com:
     hostname: ORDERER_NAME
@@ -24,6 +26,7 @@ services:
       - ../../blockchainkey/channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ../../blockchainkey/crypto-config/ordererOrganizations/NETWORK_NAME.com/orderers/ORDERER_NAME.NETWORK_NAME.com/msp:/var/hyperledger/orderer/msp
       - ../../blockchainkey/crypto-config/ordererOrganizations/NETWORK_NAME.com/orderers/ORDERER_NAME.NETWORK_NAME.com/tls/:/var/hyperledger/orderer/tls
-      - /paic_data/orderer_data/ORDERER_NAME.NETWORK_NAME.com:/var/hyperledger/production
+      - DATA_DIR/paic_data/orderer_data/ORDERER_NAME.NETWORK_NAME.com:/var/hyperledger/production
     ports:
       - ORDERER_PORT:7050
+    NETWORKS_C

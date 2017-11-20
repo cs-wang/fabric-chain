@@ -12,7 +12,7 @@ UP_DOWN="$@"
 function main() {
  for orderer in ${ORDERERS[@]}; do
   cd $orderer
-  ./network_setup.sh -s ${UP_DOWN}
+  ./network_setup.sh ${UP_DOWN}
   cd ../
  done
 }

@@ -1,0 +1,16 @@
+*.iml
+.idea/workspace.xml
+.idea/libraries
+.DS_Store
+.idea
+test
+networks/fixtures/blockchainkey/channel-artifacts/
+networks/fixtures/blockchainkey/crypto-config
+networks/fixtures/orderers/orderer[0-9]
+networks/fixtures/orgs/org[0-9]
+networks/fixtures/zkfks/kafka[0-9]
+networks/fixtures/zkfks/zookeeper[0-9]
+networks/fixtures/orderers/orderer-template/docker-compose.yaml
+networks/fixtures/orgs/org-template/peer-template/docker-compose.yaml
+networks/fixtures/zkfks/kafka-template/docker-compose.yaml
+networks/fixtures/zkfks/zookeeper-template/docker-compose.yaml

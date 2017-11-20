@@ -1,5 +1,7 @@
 version: '2'
 
+NETWORKS_D
+
 services:
   ORDERER_NAME.NETWORK_NAME.com:
     hostname: ORDERER_NAME
@@ -24,21 +26,7 @@ services:
       - ../../blockchainkey/channel-artifacts/orderer.genesis.block:/var/hyperledger/orderer/orderer.genesis.block
       - ../../blockchainkey/crypto-config/ordererOrganizations/NETWORK_NAME.com/orderers/ORDERER_NAME.NETWORK_NAME.com/msp:/var/hyperledger/orderer/msp
       - ../../blockchainkey/crypto-config/ordererOrganizations/NETWORK_NAME.com/orderers/ORDERER_NAME.NETWORK_NAME.com/tls/:/var/hyperledger/orderer/tls
-      - /paic_data/orderer_data/ORDERER_NAME.NETWORK_NAME.com:/var/hyperledger/production
+      - DATA_DIR/paic_data/orderer_data/ORDERER_NAME.NETWORK_NAME.com:/var/hyperledger/production
     ports:
       - ORDERER_PORT:7050
-    extra_hosts:
-      - orderer0.example.com:orderer0_extra_host_ip
-      - orderer1.example.com:orderer1_extra_host_ip
-      - orderer2.example.com:orderer2_extra_host_ip
-      - peer0.org1.example.com:peer0_org1_extra_host_ip
-      - peer1.org1.example.com:peer1_org1_extra_host_ip
-      - peer0.org2.example.com:peer0_org2_extra_host_ip
-      - peer1.org2.example.com:peer1_org2_extra_host_ip
-      - peer0.org3.example.com:peer0_org3_extra_host_ip
-      - peer1.org3.example.com:peer1_org3_extra_host_ip
-      - peer0.org4.example.com:peer0_org4_extra_host_ip
-      - peer1.org4.example.com:peer1_org4_extra_host_ip
-      - kafka0:kafka0_extra_host_ip
-      - kafka1:kafka1_extra_host_ip
-      - kafka2:kafka2_extra_host_ip
+    NETWORKS_C

@@ -33,7 +33,29 @@ function replacevar()
  ORDERER_IP=`eval echo '$'"${orderer}"_"ip"`
  sed $OPTS  "s/ORDERER_IP/${ORDERER_IP}/g" docker-compose.yaml
 
- genextrahosts $orderer docker-compose.yaml $OPTS
+ NETWORKS_D=""
+ NETWORKS_C=""
+ DATA_DIR=""
+ if [ "$net_mode" = "local" ]; then
+  NETWORKS_D="networks:\\
+ paic:\\
+    external:\\
+      name: paic"
+  NETWORKS_C="networks:\\
+      - paic"
+  DATA_DIR=${data_dir}
+ else
+  NETWORKS_D="" 
+  NETWORKS_C=""
+  DATA_DIR=""
+ fi
+ sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml
+ sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml
+ sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml
+
+ if [ "$net_mode" != "local" ]; then
+  genextrahosts $orderer docker-compose.yaml $OPTS
+ fi
 }
 
 function main() {

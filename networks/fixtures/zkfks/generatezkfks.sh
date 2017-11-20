@@ -27,6 +27,7 @@ function generatekafkayaml()
 
 function replacezookeepervar()
 {
+
  replacezookeepervar=$1
  ARCH=`uname -s | grep Darwin`
  if [ "$ARCH" == "Darwin" ]; then
@@ -39,6 +40,29 @@ function replacezookeepervar()
  sed $OPTS  "s/ZOOKEEPER_NAME/${ZOOKEEPER_NAME}/g" docker-compose.yaml
  ZOOKEEPER_ID=$((${replacezookeepervar##zookeeper}+1))
  sed $OPTS  "s/ZOOKEEPER_ID/${ZOOKEEPER_ID}/g" docker-compose.yaml
+
+ NETWORKS_D=""
+ NETWORKS_C=""
+ DATA_DIR=""
+ if [ "$net_mode" = "local" ]; then
+  NETWORKS_D="networks:\\
+  paic:\\
+    external:\\
+      name: paic"
+  NETWORKS_C="networks:\\
+      - paic"
+  DATA_DIR=${data_dir}
+ else
+  NETWORKS_D=""
+  NETWORKS_C="networks_mode: host\\
+ports:\\
+  - 2181:2181\\
+  - 2888:2888\\
+  - 3888:3888"
+ fi
+ sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml 
+ sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml 
+ sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml 
 
 }
 
@@ -62,6 +86,26 @@ function replacekafkavar()
  sed $OPTS  "s/KFK_ADV_PT/${KFK_ADV_PT}/g" docker-compose.yaml
  KAFKA_PORT=`eval echo '$'"${replacekafkavar}"_"port"`
  sed $OPTS  "s/KAFKA_PORT/${KAFKA_PORT}/g" docker-compose.yaml
+
+ NETWORKS_D=""
+ NETWORKS_C=""
+ DATA_DIR=""
+ if [ "$net_mode" = "local" ]; then
+  NETWORKS_D="networks:\\
+  paic:\\
+    external:\\
+      name: paic"
+  NETWORKS_C="networks:\\
+      - paic"
+  DATA_DIR=${data_dir}
+ else
+  NETWORKS_D=""
+  NETWORKS_C="networks_mode: host"
+ fi
+ sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml
+ sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml 
+ sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml 
+
 }
 
 

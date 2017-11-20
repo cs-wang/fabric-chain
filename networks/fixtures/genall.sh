@@ -14,9 +14,6 @@ function gentmpl() {
 function initop() {
 
  for template in $orderer_template_path/$dest_template $peer_template_path/$dest_template; do
-  if [ "$net_mode" = "local" ]; then
-    echo "local mode test"
-  fi
   echo "    "$extra_host >> $template
 
   for orderer in ${ORDERERS[@]}; do
@@ -72,10 +69,15 @@ function initzk() {
 
 function inithost() {
 
- initop
- 
- initzk
+ if [ "$net_mode" = "local" ]; then
+  echo "net_mode is local"
+ else
 
+  initop
+ 
+  initzk
+
+ fi
 }
 
 function main() {

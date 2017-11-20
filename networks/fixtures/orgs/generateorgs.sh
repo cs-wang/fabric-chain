@@ -51,7 +51,30 @@ function replacevar()
  PEER_PORT2=`eval echo '$'"${peer}"_"${org}"_"port2"`
  sed $OPTS  "s/PEER_PORT2/${PEER_PORT2}/g" docker-compose.yaml
 
- genextrahosts $org docker-compose.yaml $OPTS
+ NETWORKS_D=""
+ NETWORKS_C=""
+ DATA_DIR=""
+ if [ "$net_mode" = "local" ]; then
+  NETWORKS_D="networks:\\
+  paic:\\
+    external:\\
+      name: paic"
+  NETWORKS_C="networks:\\
+      - paic"
+  DATA_DIR=${data_dir}
+ else
+  NETWORKS_D="" 
+  NETWORKS_C=""
+  DATA_DIR=""
+ fi
+ sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml
+ sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml
+ sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml
+
+ if [ "$net_mode" != "local" ]; then
+  genextrahosts $org docker-compose.yaml $OPTS
+ fi
+
 }
 
 function replacecavar()
@@ -87,6 +110,26 @@ function replacecavar()
 
  CA_PORT=`eval echo '$'"ca${org##org}"_"${org}"_"port"`
  sed $OPTS  "s/CA_PORT/${CA_PORT}/g" docker-compose.yaml
+
+ NETWORKS_D=""
+ NETWORKS_C=""
+ DATA_DIR=""
+ if [ "$net_mode" = "local" ]; then
+  NETWORKS_D="networks:\\
+  paic:\\
+    external:\\
+      name: paic"
+  NETWORKS_C="networks:\\
+      - paic"
+  DATA_DIR=${data_dir}
+ else
+  NETWORKS_D="" 
+  NETWORKS_C="" 
+ fi
+ sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml
+ sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml
+ sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml
+
 }
 
 

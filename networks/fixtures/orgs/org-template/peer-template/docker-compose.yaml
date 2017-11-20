@@ -1,14 +1,17 @@
 version: '2'
 
+NETWORKS_D
+
 services:
   PEER_NAME-ORG_NAME-NETWORK_NAME-couchdb:
     container_name: PEER_NAME.ORG_NAME.NETWORK_NAME.couchdb
     image: ${FABRIC_COUCHDB_FIXTURE_IMAGE}:${ARCH}-${FABRIC_COUCHDB_FIXTURE_TAG}
     restart: always
     volumes:
-      - /paic_data/ORG_NAME.NETWORK_NAME.com/PEER_NAME/peer_data/couchdb/:/opt/couchdb/data
+      - DATA_DIR/paic_data/ORG_NAME.NETWORK_NAME.com/PEER_NAME/peer_data/couchdb/:/opt/couchdb/data
 #    ports:
 #      - 5984:5984
+    NETWORKS_C
 
   PEER_NAME.ORG_NAME.NETWORK_NAME.com:
     hostname: PEER_NAME.ORG_NAME.NETWORK_NAME.com
@@ -41,24 +44,10 @@ services:
       - /var/run/:/host/var/run/
       - ../../../blockchainkey/crypto-config/peerOrganizations/ORG_NAME.NETWORK_NAME.com/peers/PEER_NAME.ORG_NAME.NETWORK_NAME.com/msp:/etc/hyperledger/fabric/msp
       - ../../../blockchainkey/crypto-config/peerOrganizations/ORG_NAME.NETWORK_NAME.com/peers/PEER_NAME.ORG_NAME.NETWORK_NAME.com/tls:/etc/hyperledger/fabric/tls
-      - /paic_data/ORG_NAME.NETWORK_NAME.com/PEER_NAME/peer_data/fabric/:/var/hyperledger/production
+      - DATA_DIR/paic_data/ORG_NAME.NETWORK_NAME.com/PEER_NAME/peer_data/fabric/:/var/hyperledger/production
     depends_on:
       - PEER_NAME-ORG_NAME-NETWORK_NAME-couchdb
     ports:
       - PEER_PORT1:7051
       - PEER_PORT2:7053
-    extra_hosts:
-      - orderer0.example.com:orderer0_extra_host_ip
-      - orderer1.example.com:orderer1_extra_host_ip
-      - orderer2.example.com:orderer2_extra_host_ip
-      - peer0.org1.example.com:peer0_org1_extra_host_ip
-      - peer1.org1.example.com:peer1_org1_extra_host_ip
-      - peer0.org2.example.com:peer0_org2_extra_host_ip
-      - peer1.org2.example.com:peer1_org2_extra_host_ip
-      - peer0.org3.example.com:peer0_org3_extra_host_ip
-      - peer1.org3.example.com:peer1_org3_extra_host_ip
-      - peer0.org4.example.com:peer0_org4_extra_host_ip
-      - peer1.org4.example.com:peer1_org4_extra_host_ip
-      - kafka0:kafka0_extra_host_ip
-      - kafka1:kafka1_extra_host_ip
-      - kafka2:kafka2_extra_host_ip
+    NETWORKS_C

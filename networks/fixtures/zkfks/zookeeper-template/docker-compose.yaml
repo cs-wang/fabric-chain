@@ -1,5 +1,7 @@
 version: '2'
 
+NETWORKS_D
+
 services:
   ZOOKEEPER_NAME:
     container_name: ZOOKEEPER_NAME
@@ -10,18 +12,7 @@ services:
       - ZOO_SERVERS=server.1=zookeeper0:2888:3888:participant server.2=zookeeper1:2888:3888:participant server.3=zookeeper2:2888:3888:participant
       - ZOO_LOG_DIR=/paic/log
     volumes:
-      - /paic_data/ZOOKEEPER_NAME/log:/paic/log
-      - /paic_data/ZOOKEEPER_NAME/data:/data
-      - /paic_data/ZOOKEEPER_NAME/datalog:/datalog
-    ports:
-      - 2181:2181
-      - 2888:2888
-      - 3888:3888
-    network_mode: host
-    extra_hosts:
-      - zookeeper0:zookeeper0_extra_host_ip
-      - zookeeper1:zookeeper1_extra_host_ip
-      - zookeeper2:zookeeper2_extra_host_ip
-      - kafka0:kafka0_extra_host_ip
-      - kafka1:kafka1_extra_host_ip
-      - kafka2:kafka2_extra_host_ip
+      - DATA_DIR/paic_data/ZOOKEEPER_NAME/log:/paic/log
+      - DATA_DIR/paic_data/ZOOKEEPER_NAME/data:/data
+      - DATA_DIR/paic_data/ZOOKEEPER_NAME/datalog:/datalog
+    NETWORKS_C
