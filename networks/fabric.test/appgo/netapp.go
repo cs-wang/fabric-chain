@@ -31,6 +31,7 @@ import (
 	"sync"
 	"time"
 	"strconv"
+	"io/ioutil"
 )
 
 const (
@@ -277,6 +278,9 @@ func testmaininvoke(args []string) error {
 		}
 
 	}
+
+	unloadOrgPeers()
+
 	return nil
 
 }
@@ -592,7 +596,69 @@ func generateInvokeArgs() []string {
 		}
 	}`
 
-	args := []string{"postPolicy", string(body)}
+	index, err := readIndex(fname)
+	if err != nil {
+		fmt.Println("getIndex err: ", err)
+		index = 0
+	}
+	body = fmt.Sprintf("\"marblea%d\",\"bluea%d\",\"%d\",\"toma%d\"", index, index, index + 30, index)
+
+	args := []string{"initMarble", string(body)}
 
 	return args
+}
+
+func unloadOrgPeers() {
+
+	orgTestClient.SetUserContext(org1User)
+	org1peer0EventHub.Disconnect()
+
+	orgTestClient.SetUserContext(org2User)
+	org2peer0EventHub.Disconnect()
+
+	orgTestClient.SetUserContext(org3User)
+	org3peer0EventHub.Disconnect()
+
+	orgTestClient.SetUserContext(org4User)
+	org4peer0EventHub.Disconnect()
+
+}
+
+var fname = ".valindex"
+
+func writeIndex(fname string, data []byte) error {
+	err := ioutil.WriteFile(fname, data, os.ModePerm)
+	if err != nil {
+		fmt.Println("ioutil write file failed:", err)
+		return err
+	}
+	return nil
+}
+
+func readIndex(fname string) (int, error){
+
+	data, err := ioutil.ReadFile(fname)
+	if err != nil {
+		fmt.Println("ioutil read file err:", err)
+
+		writeIndex(fname, []byte("0"))
+
+		return 0, err
+	}
+
+	vd, err := strconv.Atoi(string(data))
+	if err != nil {
+		fmt.Println("loop err in args conv: ", err)
+		return 0, err
+	}
+	vd++
+	res := strconv.Itoa(vd)
+
+	err = writeIndex(fname, []byte(res))
+	if err != nil {
+		fmt.Println("writeIndex err:", err)
+		return 0, nil
+	}
+
+	return vd, nil
 }

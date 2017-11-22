@@ -16,7 +16,7 @@ dest_template=docker-compose.yaml
 
 network_name=example
 
-data_dir=\\/Users\\/wangchangshuai610\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
+data_dir=\\/home\\/ubuntu\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
 
 net_mode=local
 

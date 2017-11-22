@@ -1,6 +1,6 @@
 client:
  tls:
-  enabled: true
+  enabled: false
 
  security:
   enabled: true
@@ -18,7 +18,7 @@ client:
   path: /tmp/msp
 
  cryptoconfig:
-  path: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config"
+  path: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config"
 
  connection:
    timeout:
@@ -34,14 +34,14 @@ client:
   orderers:
    # orderer name
    orderer0:
-    host: "orderer0.lenovo.com"
-    #host: "101.89.63.173"
+    host: "orderer0.example.com"
+    #host: "127.0.0.1"
     port: 7050
     tls:
      # Certificate location absolute path
-     certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/ordererOrganizations/lenovo.com/orderers/orderer2.lenovo.com/tls/ca.crt"
+     certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt"
      # For testing only: overrides the virtual host name of the authority
-     serverHostOverride: "orderer0.lenovo.com"
+     serverHostOverride: "orderer0.example.com"
 
   # ap of member organizations forming the network
   organizations:
@@ -60,26 +60,26 @@ client:
        # Configuration for mutual TLS with the CA
        tls:
         # Comma-Separated list of paths
-        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.lenovo.com/users/Admin@org1.lenovo.com/tls/ca.crt"
+        certfiles : "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/tls/ca.crt"
         client:
-         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.lenovo.com/users/Admin@org1.lenovo.com/tls/server.key"
-         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.lenovo.com/users/Admin@org1.lenovo.com/tls/server.crt"
+         keyfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/tls/server.crt"
       # Peers that are part of this organization
       peers:
        # Peer name
        peer0:
-        host: "peer0.org1.lenovo.com"
-        #host: "101.89.66.219"
+#        host: "peer0.org1.example.com"
+        #host: "127.0.0.1"
         port: 7051
-        eventHost: "peer0.org1.lenovo.com"
-        #eventHost: "101.89.66.219"
+#        eventHost: "peer0.org1.example.com"
+        #eventHost: "127.0.0.1"
         eventPort: 7053
         primary: false
         tls:
          # Certificate location absolute path
-         #certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/msp/cacerts/ca.org1.lenovo.com-cert.pem"
-         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/tls/ca.crt"
-         serverHostOverride: "peer0.org1.lenovo.com"
+         #certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/etworks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/cacerts/ca.org1.example.com-cert.pem"
+         certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+         serverHostOverride: "peer0.org1.example.com"
 #       peer1:
 #        host: "101.89.66.183"
 #        port: 8051
@@ -88,8 +88,8 @@ client:
 #        primary: false
 #        tls:
 #         # Certificate location absolute path
-#         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.lenovo.com/peers/peer1.org1.lenovo.com/msp/cacerts/ca.org1.lenovo.com-cert.pem"
-#         serverHostOverride: "peer1.org1.lenovo.com"
+#         certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/cacerts/ca.org1.example.com-cert.pem"
+#         serverHostOverride: "peer1.org1.example.com"
     # Org2
     peerorg2:
       mspID: "Org2MSP"
@@ -99,23 +99,23 @@ client:
        serverURL: "http://101.89.66.184:7054"
        tls:
         # Comma-Separated list of paths
-        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.lenovo.com/users/Admin@org2.lenovo.com/tls/ca.crt"
+        certfiles : "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/tls/ca.crt"
         client:
-         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.lenovo.com/users/Admin@org2.lenovo.com/tls/server.key"
-         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.lenovo.com/users/Admin@org2.lenovo.com/tls/server.crt"
+         keyfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/tls/server.crt"
       peers:
        peer0:
-        host: "peer0.org2.lenovo.com"
-        #host: "101.89.63.227"
-        port: 7051
-        eventHost: "peer0.org2.lenovo.com"
-        #eventHost: "101.89.63.227"
-        eventPort: 7053
+#        host: "peer0.org2.example.com"
+        host: "127.0.0.1"
+        port: 9051
+#        eventHost: "peer0.org2.example.com"
+        eventHost: "127.0.0.1"
+        eventPort: 9053
         primary: true
         tls:
          # Certificate location absolute path
-         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.lenovo.com/peers/peer0.org2.lenovo.com/tls/ca.crt"
-         serverHostOverride: "peer0.org2.lenovo.com"
+         certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+         serverHostOverride: "peer0.org2.example.com"
 #       peer1:
 #        host: "101.89.66.184"
 #        port: 8051
@@ -124,8 +124,8 @@ client:
 #        primary: false
 #        tls:
 #         # Certificate location absolute path
-#         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.lenovo.com/peers/peer1.org2.lenovo.com/msp/cacerts/ca.org2.lenovo.com-cert.pem"
-#         serverHostOverride: "peer1.org2.lenovo.com"
+#         certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/cacerts/ca.org2.example.com-cert.pem"
+#         serverHostOverride: "peer1.org2.example.com"
    # Org3
     peerorg3:
       mspID: "Org3MSP"
@@ -135,23 +135,23 @@ client:
        serverURL: "http://218.245.66.177:7054"
        tls:
         # Comma-Separated list of paths
-        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.lenovo.com/users/Admin@org3.lenovo.com/tls/ca.crt"
+        certfiles : "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/tls/ca.crt"
         client:
-         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.lenovo.com/users/Admin@org3.lenovo.com/tls/server.key"
-         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.lenovo.com/users/Admin@org3.lenovo.com/tls/server.crt"
+         keyfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/users/Admin@org3.example.com/tls/server.crt"
       peers:
        peer0:
-        #host: "101.89.63.168"
-        host: "peer0.org3.lenovo.com"
-        port: 7051
-        #eventHost: "101.89.63.168"
-        eventHost: "peer0.org3.lenovo.com"
-        eventPort: 7053
+        host: "127.0.0.1"
+#        host: "peer0.org3.example.com"
+        port: 11051
+        eventHost: "127.0.0.1"
+#        eventHost: "peer0.org3.example.com"
+        eventPort: 11053
         primary: true
         tls:
          # Certificate location absolute path
-         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.lenovo.com/peers/peer0.org3.lenovo.com/tls/ca.crt"
-         serverHostOverride: "peer0.org3.lenovo.com"
+         certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt"
+         serverHostOverride: "peer0.org3.example.com"
  #      peer1:
  #       host: "218.245.66.177"
  #       port: 8051
@@ -160,8 +160,8 @@ client:
  #       primary: false
  #       tls:
  #        # Certificate location absolute path
- #        certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.lenovo.com/peers/peer1.org3.lenovo.com/msp/cacerts/ca.org3.lenovo.com-cert.pem"
- #        serverHostOverride: "peer1.org3.lenovo.com"
+ #        certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/msp/cacerts/ca.org3.example.com-cert.pem"
+ #        serverHostOverride: "peer1.org3.example.com"
    # Org4
     peerorg4:
       mspID: "Org4MSP"
@@ -171,23 +171,23 @@ client:
        serverURL: "http://218.245.66.178:7054"
        tls:
         # Comma-Separated list of paths
-        certfiles : "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.lenovo.com/users/Admin@org4.lenovo.com/tls/ca.crt"
+        certfiles : "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/tls/ca.crt"
         client:
-         keyfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.lenovo.com/users/Admin@org4.lenovo.com/tls/server.key"
-         certfile: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.lenovo.com/users/Admin@org4.lenovo.com/tls/server.crt"
+         keyfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/tls/server.key"
+         certfile: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.example.com/users/Admin@org4.example.com/tls/server.crt"
       peers:
        peer0:
-        host: "peer0.org4.lenovo.com"
-        #host: "101.89.63.161"
-        port: 7051
-        eventHost: "peer0.org4.lenovo.com"
-        #eventHost: "101.89.63.161"
-        eventPort: 7053
+#        host: "peer0.org4.example.com"
+        host: "127.0.0.1"
+        port: 13051
+#        eventHost: "peer0.org4.example.com"
+        eventHost: "127.0.0.1"
+        eventPort: 13053
         primary: true
         tls:
          # Certificate location absolute path
-         certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.lenovo.com/peers/peer0.org4.lenovo.com/tls/ca.crt"
-         serverHostOverride: "peer0.org4.lenovo.com"
+         certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt"
+         serverHostOverride: "peer0.org4.example.com"
   #     peer1:
   #      host: "218.245.66.178"
   #      port: 8051
@@ -196,5 +196,5 @@ client:
   #      primary: false
   #      tls:
   #       # Certificate location absolute path
-  #       certificate: "$GOPATH/src/github.com/hyperledger/lenovo/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.lenovo.com/peers/peer1.org4.lenovo.com/msp/cacerts/ca.org4.lenovo.com-cert.pem"
-  #       serverHostOverride: "peer1.org4.lenovo.com"
+  #       certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/peerOrganizations/org4.example.com/peers/peer1.org4.example.com/msp/cacerts/ca.org4.example.com-cert.pem"
+  #       serverHostOverride: "peer1.org4.example.com"

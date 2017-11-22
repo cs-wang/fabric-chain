@@ -33,22 +33,22 @@ setGlobals () {
                CORE_PEER_LOCALMSPID="Org1MSP"
                CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/tls/ca.crt
                CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/users/Admin@org1.lenovo.com/msp
-               CORE_PEER_ADDRESS=peer0.org1.lenovo.com:7051
+               CORE_PEER_ADDRESS=peer0.org1.example.com:7051
        elif [ $1 -eq 1 ]; then
 	       CORE_PEER_LOCALMSPID="Org2MSP"
-               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.lenovo.com/peers/peer0.org2.lenovo.com/tls/ca.crt
-               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.lenovo.com/users/Admin@org2.lenovo.com/msp
-               CORE_PEER_ADDRESS=peer0.org2.lenovo.com:7051
+               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+               CORE_PEER_ADDRESS=peer0.org2.example.com:8051
        elif [ $1 -eq 2 ]; then
                CORE_PEER_LOCALMSPID="Org3MSP"
-               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.lenovo.com/peers/peer0.org3.lenovo.com/tls/ca.crt
-               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.lenovo.com/users/Admin@org3.lenovo.com/msp
-               CORE_PEER_ADDRESS=peer0.org3.lenovo.com:7051
+               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+               CORE_PEER_ADDRESS=peer0.org3.example.com:9051
        else
                CORE_PEER_LOCALMSPID="Org4MSP"
-               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.lenovo.com/peers/peer0.org4.lenovo.com/tls/ca.crt
-               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.lenovo.com/users/Admin@org4.lenovo.com/msp
-               CORE_PEER_ADDRESS=peer0.org4.lenovo.com:7051
+               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt
+               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
+               CORE_PEER_ADDRESS=peer0.org4.example.com:10051
        fi
 
        env |grep CORE
@@ -59,9 +59,9 @@ createChannel() {
 	setGlobals 0
 
         if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-		peer channel create -o orderer0.lenovo.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/mychannel.tx -t 120 >&log.txt
+		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/$CHANNEL_NAME.tx -t 120 >&log.txt
 	else
-		peer channel create -o orderer0.lenovo.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/mychannel.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -t 120 >&log.txt
+		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/$CHANNEL_NAME.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -t 120 >&log.txt
 	fi
 	res=$?
 	cat log.txt
@@ -76,10 +76,10 @@ updateAnchorPeers() {
 
         if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 echo "----------------------:"
-                echo "peer channel create -o orderer0.lenovo.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt"
-		peer channel create -o orderer0.lenovo.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
+                echo "peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt"
+		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
 	else
-		peer channel create -o orderer0.lenovo.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 	fi
 	res=$?
 	cat log.txt
@@ -105,7 +105,7 @@ joinWithRetry () {
 }
 
 joinChannel () {
-	for ch in 2 3; do
+	for ch in 0 1 2 3; do
 		setGlobals $ch
 		joinWithRetry $ch
 		echo "===================== PEER$ch joined on the channel \"$CHANNEL_NAME\" ===================== "
@@ -117,7 +117,7 @@ joinChannel () {
 installChaincode () {
 	PEER=$1
 	setGlobals $PEER
-	peer chaincode install -n mycc -v 1.0 -p github.com/hyperledger/fabric/lenovos/chaincode/go/chaincode_lenovo02 >&log.txt
+	peer chaincode install -n mycc -v 1.0 -p github.com/hyperledger/fabric/examples >&log.txt
 	res=$?
 	cat log.txt
         verifyResult $res "Chaincode installation on remote peer PEER$PEER has Failed"
@@ -132,10 +132,10 @@ instantiateChaincode () {
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
                 echo "+++++++++++++++++++++++++:"
-                echo "peer chaincode instantiate -o orderer0.lenovo.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c '{Args:[init,a,100,b,200]}' -P OR('Org1MSP.member','Org2MSP.member')"
-		peer chaincode instantiate -o orderer0.lenovo.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "OR('Org1MSP.member','Org2MSP.member')" >&log.txt
+                echo "peer chaincode instantiate -o orderer0.example.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c '{Args:[init,a,100,b,200]}' -P OR('Org1MSP.member','Org2MSP.member')"
+		peer chaincode instantiate -o orderer0.example.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "OR('Org1MSP.member','Org2MSP.member')" >&log.txt
 	else
-		peer chaincode instantiate -o orderer0.lenovo.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "OR	('Org1MSP.member','Org2MSP.member')" >&log.txt
+		peer chaincode instantiate -o orderer0.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "OR	('Org1MSP.member','Org2MSP.member')" >&log.txt
 	fi
 	res=$?
 	cat log.txt
@@ -179,9 +179,9 @@ chaincodeInvoke () {
 	# while 'peer chaincode' command can get the orderer endpoint from the peer (if join was successful),
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-		peer chaincode invoke -o orderer0.lenovo.com:7050 -C $CHANNEL_NAME -n mycc -c '{"Args":["invoke","a","b","10"]}' >&log.txt
+		peer chaincode invoke -o orderer0.example.com:7050 -C $CHANNEL_NAME -n mycc -c '{"Args":["invoke","a","b","10"]}' >&log.txt
 	else
-		peer chaincode invoke -o orderer0.lenovo.com:7050  --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -c '{"Args":["invoke","a","b","10"]}' >&log.txt
+		peer chaincode invoke -o orderer0.example.com:7050  --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -c '{"Args":["invoke","a","b","10"]}' >&log.txt
 	fi
 	res=$?
 	cat log.txt
