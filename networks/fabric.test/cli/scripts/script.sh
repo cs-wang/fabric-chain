@@ -9,13 +9,13 @@ echo "|____/    |_|   /_/   \_\ |_| \_\   |_|           |_____| |_____| |_____|"
 echo
 
 CHANNEL_NAME="$1"
-: ${CHANNEL_NAME:="lenovochannel1"}
+: ${CHANNEL_NAME:="channel1"}
 : ${TIMEOUT:="60"}
 COUNTER=1
 MAX_RETRY=5
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/lenovo.com/orderers/orderer0.lenovo.com/msp/tlscacerts/tlsca.lenovo.com-cert.pem
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 
-CORE_PEER_TLS_ENABLED=true
+CORE_PEER_TLS_ENABLED=false
 echo "Channel name : "$CHANNEL_NAME
 
 verifyResult () {
@@ -31,8 +31,8 @@ setGlobals () {
 
        if [ $1 -eq 0 ] ; then
                CORE_PEER_LOCALMSPID="Org1MSP"
-               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/peers/peer0.org1.lenovo.com/tls/ca.crt
-               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.lenovo.com/users/Admin@org1.lenovo.com/msp
+               CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+               CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
                CORE_PEER_ADDRESS=peer0.org1.example.com:7051
        elif [ $1 -eq 1 ]; then
 	       CORE_PEER_LOCALMSPID="Org2MSP"
@@ -75,7 +75,6 @@ updateAnchorPeers() {
         setGlobals $PEER
 
         if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-                echo "----------------------:"
                 echo "peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt"
 		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
 	else
@@ -131,7 +130,6 @@ instantiateChaincode () {
 	# while 'peer chaincode' command can get the orderer endpoint from the peer (if join was successful),
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-                echo "+++++++++++++++++++++++++:"
                 echo "peer chaincode instantiate -o orderer0.example.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c '{Args:[init,a,100,b,200]}' -P OR('Org1MSP.member','Org2MSP.member')"
 		peer chaincode instantiate -o orderer0.example.com:7050 -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "OR('Org1MSP.member','Org2MSP.member')" >&log.txt
 	else

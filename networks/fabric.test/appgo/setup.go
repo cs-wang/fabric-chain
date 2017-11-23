@@ -74,7 +74,7 @@ var org2User ca.User
 var org3User ca.User
 var org4User ca.User
 
-var gchainCodeID = "mycc"
+var gchainCodeID = "marbles02"
 var endorseAdminUser = &org1AdminUser
 var endorsePeer = &org1TestPeer0
 
@@ -204,25 +204,25 @@ func installAndInstantiate() {
 	fmt.Println("=================1=================")
 	orgTestClient.SetUserContext(org1AdminUser)
 	err =admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"example", "0", nil, []fab.Peer{org1TestPeer0}, "./../chaincode")
+		"marbles02", "0", nil, []fab.Peer{org1TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org1TestPeer0")
 
 	fmt.Println("=================2=================")
 	orgTestClient.SetUserContext(org2AdminUser)
 	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"example", "0", nil, []fab.Peer{org2TestPeer0}, "./../chaincode")
+		"marbles02", "0", nil, []fab.Peer{org2TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org2TestPeer0")
 
 	fmt.Println("=================3=================")
 	orgTestClient.SetUserContext(org3AdminUser)
 	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"example", "0", nil, []fab.Peer{org3TestPeer0}, "./../chaincode")
+		"marbles02", "0", nil, []fab.Peer{org3TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org3TestPeer0")
 
 	fmt.Println("=================4=================")
 	orgTestClient.SetUserContext(org4AdminUser)
 	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"example", "0", nil, []fab.Peer{org4TestPeer0}, "./../chaincode")
+		"marbles02", "0", nil, []fab.Peer{org4TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org3TestPeer0")
 
 	fmt.Println("111111111111111111111111111111111111")

@@ -133,7 +133,7 @@ func inittest(args []string) {
 	fmt.Printf("org3 peer0 is %+v\n", org3TestPeer0)
 	fmt.Printf("org4 peer0 is %+v\n", org4TestPeer0)
 
-	invokeANDquery()
+	//invokeANDquery()
 }
 
 func startoinvoke(args []string) {
@@ -458,7 +458,7 @@ func testmainquery(args []string) error {
 }
 
 func generateQueryArgs() []string {
-	args := []string{"marblea1", "marblea200"}
+	args := []string{"marblea300", "marblea400"}
 	return args
 }
 
@@ -473,7 +473,7 @@ func testquery(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=5=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g1=========result2 after query:", result2)
 
 }
 
@@ -488,7 +488,7 @@ func testquery2(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=6=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g2=========result2 after query:", result2)
 
 }
 
@@ -503,7 +503,7 @@ func testquery3(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=7=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g3=========result2 after query:", result2)
 }
 
 func testquery4(funcname string) {
@@ -517,7 +517,7 @@ func testquery4(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=8=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g4=========result2 after query:", result2)
 }
 
 
