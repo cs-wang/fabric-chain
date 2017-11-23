@@ -83,23 +83,23 @@ function inithost() {
 function main() {
  if [ "$1" = "" ]; then
   cd orderers
-  ./generateorderers.sh
+  bash ./generateorderers.sh
   cd ../
   cd orgs/
-  ./generateorgs.sh
+  bash ./generateorgs.sh
   cd ../
   cd zkfks/
-  ./generatezkfks.sh
+  bash ./generatezkfks.sh
   cd ../
  else 
   cd orderers
-  ./generateorderers.sh clean
+  bash ./generateorderers.sh clean
   cd ../
   cd orgs/
-  ./generateorgs.sh clean
+  bash ./generateorgs.sh clean
   cd ../
   cd zkfks/
-  ./generatezkfks.sh clean
+  bash ./generatezkfks.sh clean
   cd ../
  fi
 }

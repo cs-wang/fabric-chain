@@ -9,13 +9,13 @@ UP_DOWN="$@"
 
 function main() {
  cd zkfks
-  ./zkfks.sh ${UP_DOWN}
+  bash ./zkfks.sh ${UP_DOWN}
  cd ../
  cd orderers
-  ./orderers.sh ${UP_DOWN}
+  bash ./orderers.sh ${UP_DOWN}
  cd ../
  cd orgs
-  ./orgscapeer.sh ${UP_DOWN}
+  bash ./orgscapeer.sh ${UP_DOWN}
  cd ../
 }
 
