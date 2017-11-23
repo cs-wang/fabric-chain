@@ -151,8 +151,13 @@ func (ec *eventsClient) register(ies []*ehpb.Interest) error {
 
 // UnregisterAsync - Unregisters interest in a event and doesn't wait for a response
 func (ec *eventsClient) UnregisterAsync(ies []*ehpb.Interest) error {
-	emsg := &ehpb.Event{Event: &ehpb.Event_Unregister{Unregister: &ehpb.Unregister{Events: ies}}}
 	var err error
+	creator, err := ec.client.UserContext().Identity()
+	if err != nil {
+		return fmt.Errorf("Error getting creator: %v", err)
+	}
+	emsg := &ehpb.Event{Event: &ehpb.Event_Unregister{Unregister: &ehpb.Unregister{Events: ies}},
+		Creator: creator}
 	if err = ec.send(emsg); err != nil {
 		err = fmt.Errorf("error on unregister send %s", err)
 	}

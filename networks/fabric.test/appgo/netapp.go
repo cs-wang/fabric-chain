@@ -255,7 +255,8 @@ func testmaininvoke(args []string) error {
 
 			go func() {
 				defer wg.Done()
-				testinvoke()
+				funcname := "initMarble"
+				testinvoke(funcname)
 			}()
 			time.Sleep(time.Duration(int64(time.Second)/int64(loops)))
 		}
@@ -272,22 +273,39 @@ func testmaininvoke(args []string) error {
 			life, elapsed, invokeSuccessNum)
 		fmt.Print(invokeResult)
 		reslogfd.WriteString(invokeResult)
-
+		break
 		if life.Minutes() > alivetime {
 			break
 		}
 
 	}
 
-	unloadOrgPeers()
+	unloadOrgPeersEventHub()
 
 	return nil
 
 }
 
-func testinvoke() {
+func generateInvokeArgs() []string {
 
-	fcn := "invoke"
+	index, err := readIndex(fname)
+	if err != nil {
+		fmt.Println("getIndex err: ", err)
+		index = 0
+	}
+	marblea := fmt.Sprintf("marblea%d", index)
+	bluea := fmt.Sprintf("bluea%d", index)
+	size := fmt.Sprintf("%d", index + 30)
+	toma := fmt.Sprintf("toma%d",index)
+
+	args := []string{marblea, bluea, size, toma }
+
+	return args
+}
+
+func testinvoke(funcname string) {
+
+	fcn := funcname
 
 	orgTestClient.SetUserContext(org1User)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
@@ -298,9 +316,9 @@ func testinvoke() {
 	//fmt.Println("=c1=1=========result after change:", result)
 }
 
-func testinvoke2() {
+func testinvoke2(funcname string) {
 
-	fcn := "invoke"
+	fcn := funcname
 
 	orgTestClient.SetUserContext(org2User)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
@@ -311,9 +329,9 @@ func testinvoke2() {
 	//fmt.Println("=c1=2=========result after change:", result)
 }
 
-func testinvoke3() {
+func testinvoke3(funcname string) {
 
-	fcn := "invoke"
+	fcn := funcname
 
 	orgTestClient.SetUserContext(org3User)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
@@ -324,9 +342,9 @@ func testinvoke3() {
 	//fmt.Println("=c1=3=========result after change:", result)
 }
 
-func testinvoke4() {
+func testinvoke4(funcname string) {
 
-	fcn := "invoke"
+	fcn := funcname
 
 	orgTestClient.SetUserContext(org4User)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
@@ -410,10 +428,11 @@ func testmainquery(args []string) error {
 
 			go func() {
 				defer wg.Done()
-				testquery()
-				testquery2()
-				testquery3()
-				testquery4()
+				funcname := "getMarblesByRange"
+				testquery(funcname)
+				testquery2(funcname)
+				testquery3(funcname)
+				testquery4(funcname)
 
 			}()
 			time.Sleep(time.Duration(int64(time.Second)/int64(loops)))
@@ -425,18 +444,27 @@ func testmainquery(args []string) error {
 
 		life := time.Since(alife)
 		fmt.Println("run time keeps: ", life)
+		break
 		if life.Minutes() > alivetime {
 			break
 		}
 
 	}
+
+	unloadOrgPeersEventHub()
+
 	return nil
 
 }
 
-func testquery() {
+func generateQueryArgs() []string {
+	args := []string{"marblea1", "marblea200"}
+	return args
+}
 
-	fcn := "invoke"
+func testquery(funcname string) {
+
+	fcn := funcname
 
 	// Query value on org1 peer
 	orgTestClient.SetUserContext(org1User)
@@ -449,10 +477,9 @@ func testquery() {
 
 }
 
+func testquery2(funcname string) {
 
-func testquery2() {
-
-	fcn := "invoke"
+	fcn := funcname
 
 	// Query value on org2 peer
 	orgTestClient.SetUserContext(org2User)
@@ -465,9 +492,9 @@ func testquery2() {
 
 }
 
-func testquery3() {
+func testquery3(funcname string) {
 
-	fcn := "invoke"
+	fcn := funcname
 
 	// Query value on org3 peer
 	orgTestClient.SetUserContext(org3User)
@@ -479,9 +506,9 @@ func testquery3() {
 	fmt.Println("=c1=7=========result2 after query:", result2)
 }
 
-func testquery4() {
+func testquery4(funcname string) {
 
-	fcn := "invoke"
+	fcn := "getMarblesByRange"
 
 	// Query value on org4 peer
 	orgTestClient.SetUserContext(org4User)
@@ -493,11 +520,12 @@ func testquery4() {
 	fmt.Println("=c1=8=========result2 after query:", result2)
 }
 
+
 func invokeANDquery() {
 
 	fcn := "invoke"
 
-	// Change value on org2 peer
+	// Change value on org1 peer with different user
 	orgTestClient.SetUserContext(org1User)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
 	result, err := fabrictxn.InvokeChaincode(orgTestClient, orgTestChannel1, []apitxn.ProposalProcessor{*endorsePeer},
@@ -567,48 +595,11 @@ func invokeANDquery() {
 	fmt.Println("=c1=8=========result2 after query:", result2)
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-
 }
 
+func unloadOrgPeersEventHub() {
 
-func generateQueryArgs() []string {
-	args := []string{"getPolicy", "保单号"}
-	return args
-}
-
-func generateInvokeArgs() []string {
-
-	body := `{
-		"openId": "abc",
-		"policyInfo": {
-			"policyNo":"保单号",
-			"insuranceBeginDate":"保险起期",
-			"insuranceEndDate":"保险止期"
-		},
-		"orderInfo": {
-			"orderNo":"订单号",
-			"productId":"云产品Id",
-			"planId":"产险产品Id",
-			"packageId":"套餐Id",
-			"applicantName":"投保人姓名",
-			"applicantPhone":"投保人电话",
-			"applicantCertificateNo":"123145646"
-		}
-	}`
-
-	index, err := readIndex(fname)
-	if err != nil {
-		fmt.Println("getIndex err: ", err)
-		index = 0
-	}
-	body = fmt.Sprintf("\"marblea%d\",\"bluea%d\",\"%d\",\"toma%d\"", index, index, index + 30, index)
-
-	args := []string{"initMarble", string(body)}
-
-	return args
-}
-
-func unloadOrgPeers() {
+	fmt.Println("disconnect eventhubs")
 
 	orgTestClient.SetUserContext(org1User)
 	org1peer0EventHub.Disconnect()
@@ -623,6 +614,7 @@ func unloadOrgPeers() {
 	org4peer0EventHub.Disconnect()
 
 }
+
 
 var fname = ".valindex"
 

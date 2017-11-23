@@ -34,8 +34,8 @@ client:
   orderers:
    # orderer name
    orderer0:
-    host: "orderer0.example.com"
-    #host: "127.0.0.1"
+#    host: "orderer0.example.com"
+    host: "127.0.0.1"
     port: 7050
     tls:
      # Certificate location absolute path
@@ -69,10 +69,10 @@ client:
        # Peer name
        peer0:
 #        host: "peer0.org1.example.com"
-        #host: "127.0.0.1"
+        host: "127.0.0.1"
         port: 7051
 #        eventHost: "peer0.org1.example.com"
-        #eventHost: "127.0.0.1"
+        eventHost: "127.0.0.1"
         eventPort: 7053
         primary: false
         tls:

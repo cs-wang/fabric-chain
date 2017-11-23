@@ -19,6 +19,8 @@ network_name=example
 data_dir=\\/home\\/ubuntu\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
 
 net_mode=local
+peer_log_mode=INFO
+orderer_log_mode=INFO
 
 LAN_ORG_UNITS=(a_unit)
 a_unit=(zookeeper0 zookeeper1 zookeeper2 kafka0 kafka1 kafka2 orderer0 orderer1 orderer2 org1 org2 org3 org4)

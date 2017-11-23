@@ -74,7 +74,7 @@ var org2User ca.User
 var org3User ca.User
 var org4User ca.User
 
-var gchainCodeID = "marbles02"
+var gchainCodeID = "mycc"
 var endorseAdminUser = &org1AdminUser
 var endorsePeer = &org1TestPeer0
 
@@ -108,7 +108,7 @@ func initializeFabricClient() {
 func createTestChannel() {
 	var err error
 
-	orgTestChannel1, err = channel.NewChannel("channel2", orgTestClient)
+	orgTestChannel1, err = channel.NewChannel("channel1", orgTestClient)
 	failTestIfError(err, "orgTestChannel1, err = channel.NewChannel")
 	//orgTestChannel2, err = channel.NewChannel("channel2", orgTestClient)
 	//failTestIfError(err, "orgTestChannel2, err = channel.NewChannel")
@@ -141,7 +141,7 @@ func createTestChannel() {
 func loadTestChannel() {
 	var err error
 
-	orgTestChannel1, err = channel.NewChannel("channel4", orgTestClient)
+	orgTestChannel1, err = channel.NewChannel("channel1", orgTestClient)
 	failTestIfError(err, "orgTestChannel1, err = channel.NewChannel")
 
 	err = orgTestChannel1.AddPeer(org1TestPeer0)

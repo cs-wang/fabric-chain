@@ -196,7 +196,7 @@ func InvokeChaincode(client fab.FabricClient, channel fab.Channel, targets []api
 	case <-done:
 	case err := <-fail:
 		return txID, fmt.Errorf("invoke Error received from eventhub for txid(%s), error(%v)", txID, err)
-	case <-time.After(time.Second * 30):
+	case <-time.After(time.Second * 1000):
 		return txID, fmt.Errorf("invoke Didn't receive block event for txid(%s)", txID)
 	}
 

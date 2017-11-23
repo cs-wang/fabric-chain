@@ -1,5 +1,10 @@
 version: '2'
 
+networks:
+  paic:
+    external:
+      name: paic
+
 services:
   cli:
     container_name: cli
@@ -25,6 +30,8 @@ services:
         - ./../../fixtures/blockchainkey/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./../../fixtures/blockchainkey/channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    networks:
+      - paic
     extra_hosts:
      - orderer0.example.com:127.0.0.1
      - orderer1.example.com:127.0.0.1

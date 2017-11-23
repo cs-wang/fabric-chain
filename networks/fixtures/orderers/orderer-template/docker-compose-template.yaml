@@ -10,7 +10,7 @@ services:
     image: ${FABRIC_ORDERER_FIXTURE_IMAGE}:${ARCH}-${FABRIC_ORDERER_FIXTURE_TAG}
     restart: always
     environment:
-      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LOGLEVEL=ODR_LOGMODE
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block

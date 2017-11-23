@@ -38,6 +38,13 @@ function replacevar()
 
  NETWORK_NAME=$network_name
  sed $OPTS  "s/NETWORK_NAME/${NETWORK_NAME}/g" docker-compose.yaml
+ PER_LOGMODE=$peer_log_mode
+ sed $OPTS  "s/PER_LOGMODE/${PER_LOGMODE}/g" docker-compose.yaml
+
+ if [ "$net_mode" = "local" ]; then
+    sed $OPTS  "s/PEER_NAME_default/paic/g" docker-compose.yaml
+ fi
+
  PEER_NAME=$replacevarpeer
  sed $OPTS  "s/PEER_NAME/${PEER_NAME}/g" docker-compose.yaml
  ORG_NAME=$org
