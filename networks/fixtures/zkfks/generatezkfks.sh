@@ -54,11 +54,11 @@ function replacezookeepervar()
   DATA_DIR=${data_dir}
  else
   NETWORKS_D=""
-  NETWORKS_C="networks_mode: host\\
-ports:\\
-  - 2181:2181\\
-  - 2888:2888\\
-  - 3888:3888"
+  NETWORKS_C="network_mode: host\\
+    ports:\\
+      - 2181:2181\\
+      - 2888:2888\\
+      - 3888:3888"
  fi
  sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml 
  sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml 
@@ -104,7 +104,7 @@ function replacekafkavar()
   DATA_DIR=${data_dir}
  else
   NETWORKS_D=""
-  NETWORKS_C="networks_mode: host"
+  NETWORKS_C="network_mode: host"
  fi
  sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml
  sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml 
