@@ -18,12 +18,12 @@ network_name=example
 
 data_dir=\\/home\\/ubuntu\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
 
-net_mode=local
+net_mode=other
 peer_log_mode=INFO
 orderer_log_mode=INFO
 
 LAN_ORG_UNITS=(a_unit)
-a_unit=(zookeeper0 zookeeper1 zookeeper2 kafka0 kafka1 kafka2 orderer0 orderer1 orderer2 org1 org2 org3 org4)
+a_unit=(zookeeper0 zookeeper1 zookeeper2 kafka0 kafka1 kafka2 kafka3 orderer0 orderer1 orderer2 org1 org2 org3 org4)
 
 #########################################
 # orderers
@@ -100,26 +100,30 @@ peer1_org4_port2=14053
 # zkfks
 #########################################
 ZOOKEEPERS=(zookeeper0 zookeeper1 zookeeper2)
-KAFKAS=(kafka0 kafka1 kafka2)
+KAFKAS=(kafka0 kafka1 kafka2 kafka3)
 
-zookeeper0_ip=
-zookeeper0_local_ip=
-zookeeper1_ip=
-zookeeper1_local_ip=
-zookeeper2_ip=
-zookeeper2_local_ip=
+zookeeper0_ip=30.6.194.14
+zookeeper0_local_ip=30.6.194.14
+zookeeper1_ip=30.6.194.15
+zookeeper1_local_ip=30.6.194.15
+zookeeper2_ip=30.6.194.16
+zookeeper2_local_ip=30.6.194.16
 
-kafka0_ip=
-kafka0_local_ip=127.0.0.1
+kafka0_ip=30.6.194.17
+kafka0_local_ip=30.6.194.17
 kafka0_port=9092
 
-kafka1_ip=
-kafka1_local_ip=127.0.0.1
-kafka1_port=10092
+kafka1_ip=30.6.194.18
+kafka1_local_ip=30.6.194.18
+kafka1_port=9092
 
-kafka2_ip=
-kafka2_local_ip=127.0.0.1
-kafka2_port=11092
+kafka2_ip=30.6.194.19
+kafka2_local_ip=30.6.194.19
+kafka2_port=9092
+
+kafka3_ip=30.6.194.20
+kafka3_local_ip=30.6.194.20
+kafka3_port=9092
 
 #########################################
 ################extra_host###############
@@ -168,6 +172,18 @@ function genextrahosts() {
    done
  done
 
+#set -x
+ for zkeper in ${ZOOKEEPERS[@]}; do
+  theorg=$(getorgunit $zkeper)
+  zookeeper_ip="${zkeper}_${host_end}"
+  if [ "$typeorg" = "$theorg" ]; then
+    ipforreplace=`eval echo '$'"${zkeper}"_"local_ip"`
+  else
+    ipforreplace=`eval echo '$'"${zkeper}"_"ip"`
+  fi
+  sed $OPTS  "s/${zookeeper_ip}/${ipforreplace}/g" $file
+ done
+
  for kafka in ${KAFKAS[@]}; do
    theorg=$(getorgunit $kafka)
    kafka_ip="${kafka}_${host_end}"
@@ -179,3 +195,5 @@ function genextrahosts() {
    sed $OPTS  "s/${kafka_ip}/${ipforreplace}/g" $file
  done
 }
+
+

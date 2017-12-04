@@ -64,6 +64,10 @@ ports:\\
  sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml 
  sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml 
 
+ if [ "$net_mode" != "local" ]; then
+  genextrahosts $zookeeper docker-compose.yaml $OPTS
+ fi
+
 }
 
 function replacekafkavar()
@@ -105,6 +109,10 @@ function replacekafkavar()
  sed $OPTS  "s/NETWORKS_D/${NETWORKS_D}/g" docker-compose.yaml
  sed $OPTS  "s/NETWORKS_C/${NETWORKS_C}/g" docker-compose.yaml 
  sed $OPTS  "s/DATA_DIR/${DATA_DIR}/g" docker-compose.yaml 
+
+ if [ "$net_mode" != "local" ]; then
+  genextrahosts $kafka docker-compose.yaml $OPTS
+ fi
 
 }
 
