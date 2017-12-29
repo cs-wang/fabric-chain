@@ -109,7 +109,7 @@ func newTransactionProposal(channelID string, request apitxn.ChaincodeInvokeRequ
 
 	// create invocation spec to target a chaincode with arguments
 	ccis := &pb.ChaincodeInvocationSpec{ChaincodeSpec: &pb.ChaincodeSpec{
-		Type: pb.ChaincodeSpec_GOLANG, ChaincodeId: &pb.ChaincodeID{Name: request.ChaincodeID},
+		Type: pb.ChaincodeSpec_GOLANG, ChaincodeId: &pb.ChaincodeID{Name: request.ChaincodeID, Version:"13"},
 		Input: &pb.ChaincodeInput{Args: argsArray}}}
 
 	// create a proposal from a ChaincodeInvocationSpec

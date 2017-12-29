@@ -94,7 +94,10 @@ func (o *Orderer) SendBroadcast(envelope *fab.SignedEnvelope) (*common.Status, e
 	}); err != nil {
 		return nil, fmt.Errorf("Failed to send a envelope to orderer: %v", err)
 	}
-	broadcastStream.CloseSend()
+	err = broadcastStream.CloseSend()
+	if err != nil {
+		fmt.Errorf("Failed to CloseSend a envelope to orderer: %v", err)
+	}
 	<-done
 	return broadcastStatus, broadcastErr
 }

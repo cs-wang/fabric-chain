@@ -13,24 +13,24 @@ import (
 )
 
 // GetOrdererAdmin returns a pre-enrolled orderer admin user
-func GetOrdererAdmin(c fab.FabricClient, orgName string) (ca.User, error) {
-	keyDir := "ordererOrganizations/example.com/users/Admin@example.com/msp/keystore"
-	certDir := "ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts"
+func GetOrdererAdmin(c fab.FabricClient, orgName string, networkName string) (ca.User, error) {
+	keyDir := fmt.Sprintf("ordererOrganizations/%s.com/users/Admin@%s.com/msp/keystore", networkName, networkName)
+	certDir := fmt.Sprintf("ordererOrganizations/%s.com/users/Admin@%s.com/msp/signcerts", networkName, networkName)
 	return getDefaultImplPreEnrolledUser(c, keyDir, certDir, "ordererAdmin", orgName)
 }
 
 // GetAdmin returns a pre-enrolled org admin user
-func GetAdmin(c fab.FabricClient, orgPath string, orgName string) (ca.User, error) {
-	keyDir := fmt.Sprintf("peerOrganizations/%s.example.com/users/Admin@%s.example.com/msp/keystore", orgPath, orgPath)
-	certDir := fmt.Sprintf("peerOrganizations/%s.example.com/users/Admin@%s.example.com/msp/signcerts", orgPath, orgPath)
+func GetAdmin(c fab.FabricClient, orgPath string, orgName string, networkName string) (ca.User, error) {
+	keyDir := fmt.Sprintf("peerOrganizations/%s.%s.com/users/Admin@%s.%s.com/msp/keystore", orgPath, networkName, orgPath, networkName)
+	certDir := fmt.Sprintf("peerOrganizations/%s.%s.com/users/Admin@%s.%s.com/msp/signcerts", orgPath, networkName, orgPath, networkName)
 	username := fmt.Sprintf("peer%sAdmin", orgPath)
 	return getDefaultImplPreEnrolledUser(c, keyDir, certDir, username, orgName)
 }
 
 // GetUser returns a pre-enrolled org user
-func GetUser(c fab.FabricClient, orgPath string, orgName string) (ca.User, error) {
-	keyDir := fmt.Sprintf("peerOrganizations/%s.example.com/users/User1@%s.example.com/msp/keystore", orgPath, orgPath)
-	certDir := fmt.Sprintf("peerOrganizations/%s.example.com/users/User1@%s.example.com/msp/signcerts", orgPath, orgPath)
+func GetUser(c fab.FabricClient, orgPath string, orgName string, networkName string) (ca.User, error) {
+	keyDir := fmt.Sprintf("peerOrganizations/%s.%s.com/users/User1@%s.%s.com/msp/keystore", orgPath, networkName, orgPath, networkName)
+	certDir := fmt.Sprintf("peerOrganizations/%s.%s.com/users/User1@%s.%s.com/msp/signcerts", orgPath, networkName, orgPath, networkName)
 	username := fmt.Sprintf("peer%sUser1", orgPath)
 	return getDefaultImplPreEnrolledUser(c, keyDir, certDir, username, orgName)
 }

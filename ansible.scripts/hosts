@@ -1,6 +1,28 @@
 [zkfks]
+101.89.66.163 ansible_ssh_user=root
+101.89.66.164 ansible_ssh_user=root
+101.89.66.231 ansible_ssh_user=root
 
 [orgs]
+101.89.66.183 ansible_ssh_user=root
+101.89.66.184 ansible_ssh_user=root
+
+[orgsother]
+218.245.66.177 ansible_ssh_user=root ansible_ssh_port=37154
+218.245.66.178 ansible_ssh_user=root ansible_ssh_port=37154
 
 [orderers]
+101.89.66.163 ansible_ssh_user=root
+101.89.66.164 ansible_ssh_user=root
+101.89.66.231 ansible_ssh_user=root
 
+[zzhorgs]
+101.89.66.219 ansible_ssh_user=root ansible_ssh_pass=Rd4fOVHv7u
+101.89.63.227 ansible_ssh_user=root ansible_ssh_pass=My2rZCkDen
+101.89.63.168 ansible_ssh_user=root ansible_ssh_pass=79UgUhpmcW
+101.89.63.161 ansible_ssh_user=root ansible_ssh_pass=P63FqcMXEp
+
+[zzhorderers]
+101.89.66.164 ansible_ssh_user=root ansible_ssh_pass=y9Gvf5MfVU
+101.89.66.231 ansible_ssh_user=root ansible_ssh_pass=8KQT2RVuN4
+101.89.63.173 ansible_ssh_user=root ansible_ssh_pass=XdRb3vbm5A

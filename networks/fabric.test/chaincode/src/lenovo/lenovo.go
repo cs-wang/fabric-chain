@@ -51,7 +51,7 @@ func (t *InsuranceChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response 
 func (t *InsuranceChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("########### insurance Invoke ###########")
 	function, args := stub.GetFunctionAndParameters()
-	switch args[0] {
+	switch function {
 	case "postInsurance":
 		return t.postInsurance(stub, args)
 	case "getInsurance":
@@ -63,63 +63,63 @@ func (t *InsuranceChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Respons
 
 // postPolicy postPolicy
 func (t *InsuranceChaincode) postInsurance(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	fmt.Printf("postInsurance=%v\n", args)
+	//fmt.Printf("postInsurance=%v\n", args)
 
-	if len(args) != 2 {
+	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments.")
 	}
 
 	// TODO: check duplication
 	//txID := stub.GetTxID()
 
-	body := []byte(args[1])
+	body := []byte(args[0])
 	var insuranceData InsuranceLedger
 	err := json.Unmarshal(body, &insuranceData)
 	if err != nil {
-		return shim.Error(err.Error())
+		return shim.Error("json.Unmarshal : " + err.Error())
 	}
 
-	fmt.Printf("postInsurance: '%v'\n", insuranceData)
+	//fmt.Printf("postInsurance: '%v'\n", insuranceData)
 
 	attributes := []string{insuranceData.PolicyNo}
 	key, err := stub.CreateCompositeKey("lenovo", attributes)
 
-	fmt.Println("postInsurance key: '%v'",key)
+	//fmt.Println("postInsurance key: '%v'",key)
 
 	if err != nil {
-		return shim.Error(err.Error())
+		return shim.Error("stub.CreateCompositeKey : " + err.Error())
 	}
 
 	idataByte, err := json.Marshal(insuranceData)
 	if err != nil {
-		return shim.Error(err.Error())
+		return shim.Error("json.Marshal : " + err.Error())
 	}
 	err = stub.PutState(key, idataByte)
 	if err != nil {
-		return shim.Error(err.Error())
+		return shim.Error("stub.PutState : " + err.Error())
 	}
 
 	return shim.Success(nil)
 }
 
 func (t *InsuranceChaincode) getInsurance(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	fmt.Printf("getInsurance=%v\n", args)
+	//fmt.Printf("getInsurance=%v\n", args)
 
-	if len(args) != 2 {
+	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments.")
 	}
 
-	key, err := stub.CreateCompositeKey("lenovo", []string{args[1]})
+	key, err := stub.CreateCompositeKey("lenovo", []string{args[0]})
 	if err != nil {
-		return shim.Error(err.Error())
+		return shim.Error("stub.CreateCompositeKey : " + err.Error())
 	}
 
 	value, err := stub.GetState(key)
 	if err != nil {
-		return shim.Error(err.Error())
+		return shim.Error("stub.GetState : " + err.Error())
 	}
 
-	fmt.Println(value)
+	//fmt.Println(value)
 	return shim.Success(value)
 }
 

@@ -91,8 +91,10 @@ func postOnceTxLog(txlogs []TransactionCostLog) {
 }
 
 var Txlogfd *os.File
+var TxErrLogFd *os.File
 
 var filelock sync.RWMutex
+var errFileLock sync.RWMutex
 
 func savefileTxLog(txlogs []TransactionCostLog) {
 	filelock.Lock()
@@ -107,6 +109,22 @@ func savefileTxLog(txlogs []TransactionCostLog) {
 		return
 	}
 	Txlogfd.Write(jsont)
+	Txlogfd.Write([]byte("\n"))
+}
+
+func savefileTxErrLog(txlogs string) {
+	errFileLock.Lock()
+	defer errFileLock.Unlock()
+	if TxErrLogFd == nil {
+		fmt.Println("file not opened")
+		return
+	}
+	//jsont, err := json.Marshal(txlogs)
+	//if err != nil {
+	//	fmt.Println("jsont, err := json.Marshal(txlogs), err", err)
+	//	return
+	//}
+	Txlogfd.Write([]byte(txlogs))
 	Txlogfd.Write([]byte("\n"))
 }
 
@@ -136,11 +154,12 @@ func InvokeChaincode(client fab.FabricClient, channel fab.Channel, targets []api
 	}
 	/////////////////////////////////////////////////////////////
 	blogs := make([]TransactionCostLog, 0)
+	times := 0
+	threeTry1:
 	t1 := time.Now()
-
 	transactionProposalResponses, txID, err := internal.CreateAndSendTransactionProposal(channel,
 		chaincodeID, fcn, args, targets, transientData)
-
+	times ++
 	elapsed1 := time.Since(t1)
 	value := TransactionCostLog{
 		OrderType: "kafka",
@@ -150,15 +169,22 @@ func InvokeChaincode(client fab.FabricClient, channel fab.Channel, targets []api
 		TypeId: "t1",
 	}
 
-	blogs = append(blogs, value)
+
 	//fmt.Println("---------------------------test internal.CreateAndSendTransactionProposal elapsed: ", elapsed1)
 	/////////////////////////////////////////////////////////////
 	if err != nil {
-		return apitxn.TransactionID{}, fmt.Errorf("CreateAndSendTransactionProposal returned error: %v", err)
+		if times < 3 {
+			goto threeTry1
+		}
+		emsg := fmt.Errorf("CreateAndSendTransactionProposal returned error: %v", err)
+		savefileTxErrLog(emsg.Error())
+		return apitxn.TransactionID{}, emsg
 	}
-	/////////////////////////////////////////////////////////////
-	t1 = time.Now()
 
+	blogs = append(blogs, value)
+	/////////////////////////////////////////////////////////////
+
+	t1 = time.Now()
 	done, fail := internal.RegisterTxEvent(txID, eventHub)
 
 	elapsed2 := time.Since(t1)
@@ -172,10 +198,15 @@ func InvokeChaincode(client fab.FabricClient, channel fab.Channel, targets []api
 	blogs = append(blogs, value2)
 	//fmt.Println("---------------------------test internal.RegisterTxEvent elapsed: ", elapsed2)
         /////////////////////////////////////////////////////////////
+
+
+	times = 0
+
+	threeTry2:
 	t1 = time.Now()
 
 	_, err = internal.CreateAndSendTransaction(channel, transactionProposalResponses)
-
+	times ++
 	elapsed3 := time.Since(t1)
 	value3 := TransactionCostLog{
 		OrderType: "kafka",
@@ -184,13 +215,18 @@ func InvokeChaincode(client fab.FabricClient, channel fab.Channel, targets []api
 		TxId: txID.ID,
 		TypeId: "t3",
 	}
-	blogs = append(blogs, value3)
 
 	//fmt.Println("---------------------------test internal.CreateAndSendTransaction elapsed: ", elapsed3)
 	/////////////////////////////////////////////////////////////
 	if err != nil {
-		return txID, fmt.Errorf("CreateAndSendTransaction returned error: %v", err)
+		if times < 3 {
+			goto threeTry2
+		}
+		emsg := fmt.Errorf("CreateAndSendTransaction returned error: %v", err)
+		savefileTxErrLog(emsg.Error())
+		return txID, emsg
 	}
+	blogs = append(blogs, value3)
 
 	select {
 	case <-done:

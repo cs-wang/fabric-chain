@@ -1,4 +1,7 @@
 #!/bin/bash
 GOBIN=$PWD
-rm netapp
+
+if [ -f "netapp" ]; then
+ rm netapp
+fi
 go install netapp.go setup.go utils.go

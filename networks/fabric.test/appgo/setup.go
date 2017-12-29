@@ -23,7 +23,7 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabric-txn/admin"
 	"github.com/hyperledger/fabric/bccsp/factory"
 	"github.com/hyperledger/fabric-sdk-go/def/fabapi"
-	"os"
+	//"os"
 	"sync"
 )
 
@@ -74,9 +74,11 @@ var org2User ca.User
 var org3User ca.User
 var org4User ca.User
 
-var gchainCodeID = "marbles02"
-var endorseAdminUser = &org1AdminUser
-var endorsePeer = &org1TestPeer0
+var gchainCodeID = "chaincode_lenovo8"
+var chainCodePath = "lenovo"
+var chainCodeVersion = "0"
+var endorseAdminUser = &org2AdminUser
+var endorsePeer = &org2TestPeer0
 
 var successNumLock sync.RWMutex
 var invokeSuccessNum int64 = 0
@@ -108,7 +110,7 @@ func initializeFabricClient() {
 func createTestChannel() {
 	var err error
 
-	orgTestChannel1, err = channel.NewChannel("channel1", orgTestClient)
+	orgTestChannel1, err = channel.NewChannel("lenovochannel1", orgTestClient)
 	failTestIfError(err, "orgTestChannel1, err = channel.NewChannel")
 	//orgTestChannel2, err = channel.NewChannel("channel2", orgTestClient)
 	//failTestIfError(err, "orgTestChannel2, err = channel.NewChannel")
@@ -141,7 +143,7 @@ func createTestChannel() {
 func loadTestChannel() {
 	var err error
 
-	orgTestChannel1, err = channel.NewChannel("channel1", orgTestClient)
+	orgTestChannel1, err = channel.NewChannel("lenovochannel1", orgTestClient)
 	failTestIfError(err, "orgTestChannel1, err = channel.NewChannel")
 
 	err = orgTestChannel1.AddPeer(org1TestPeer0)
@@ -204,25 +206,25 @@ func installAndInstantiate() {
 	fmt.Println("=================1=================")
 	orgTestClient.SetUserContext(org1AdminUser)
 	err =admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"marbles02", "0", nil, []fab.Peer{org1TestPeer0}, "./../chaincode")
+		chainCodePath, chainCodeVersion, nil, []fab.Peer{org1TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org1TestPeer0")
 
 	fmt.Println("=================2=================")
 	orgTestClient.SetUserContext(org2AdminUser)
 	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"marbles02", "0", nil, []fab.Peer{org2TestPeer0}, "./../chaincode")
+		chainCodePath, chainCodeVersion, nil, []fab.Peer{org2TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org2TestPeer0")
 
 	fmt.Println("=================3=================")
 	orgTestClient.SetUserContext(org3AdminUser)
 	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"marbles02", "0", nil, []fab.Peer{org3TestPeer0}, "./../chaincode")
+		chainCodePath, chainCodeVersion, nil, []fab.Peer{org3TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org3TestPeer0")
 
 	fmt.Println("=================4=================")
 	orgTestClient.SetUserContext(org4AdminUser)
 	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		"marbles02", "0", nil, []fab.Peer{org4TestPeer0}, "./../chaincode")
+		chainCodePath, chainCodeVersion, nil, []fab.Peer{org4TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org3TestPeer0")
 
 	fmt.Println("111111111111111111111111111111111111")
@@ -230,7 +232,7 @@ func installAndInstantiate() {
 	orgTestClient.SetUserContext(*endorseAdminUser)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
 	err = admin.SendInstantiateCC(orgTestChannel1, gchainCodeID,
-		generateInitArgs(), "example", "0", []apitxn.ProposalProcessor{ org1TestPeer0, org2TestPeer0, org3TestPeer0, org4TestPeer0 }, org1peer0EventHub)
+		generateInitArgs(), chainCodePath, chainCodeVersion, []apitxn.ProposalProcessor{ org1TestPeer0, org2TestPeer0, org3TestPeer0, org4TestPeer0 }, org1peer0EventHub)
 	failTestIfError(err, "SendInstantiateCC orgTestChannel1")
 	fmt.Println("222222222222222222222222222222222222")
 }
@@ -330,23 +332,25 @@ func loadOrgPeers() {
 func loadOrgUsers() {
 	var err error
 
-	ordererAdminUser, err = GetOrdererAdmin(orgTestClient, org1)
+	var networkName = "lenovo"
+
+	ordererAdminUser, err = GetOrdererAdmin(orgTestClient, org1, networkName)
 	failTestIfError(err, "GetOrdererAdmin ordererAdminUser")
-	org1AdminUser, err = GetAdmin(orgTestClient, "org1", org1)
+	org1AdminUser, err = GetAdmin(orgTestClient, "org1", org1, networkName)
 	failTestIfError(err, "GetAdmin org1AdminUser")
-	org2AdminUser, err = GetAdmin(orgTestClient, "org2", org2)
+	org2AdminUser, err = GetAdmin(orgTestClient, "org2", org2, networkName)
 	failTestIfError(err, "GetAdmin org2AdminUser")
-	org3AdminUser, err = GetAdmin(orgTestClient, "org3", org3)
+	org3AdminUser, err = GetAdmin(orgTestClient, "org3", org3, networkName)
 	failTestIfError(err, "GetAdmin org3AdminUser")
-	org4AdminUser, err = GetAdmin(orgTestClient, "org4", org4)
+	org4AdminUser, err = GetAdmin(orgTestClient, "org4", org4, networkName)
 	failTestIfError(err, "GetAdmin org4AdminUser")
-	org1User, err = GetUser(orgTestClient, "org1", org1)
+	org1User, err = GetUser(orgTestClient, "org1", org1, networkName)
 	failTestIfError(err, "GetUser, org1User")
-	org2User, err = GetUser(orgTestClient, "org2", org2)
+	org2User, err = GetUser(orgTestClient, "org2", org2, networkName)
 	failTestIfError(err, "GetUser, org2User")
-	org3User, err = GetUser(orgTestClient, "org3", org3)
+	org3User, err = GetUser(orgTestClient, "org3", org3, networkName)
 	failTestIfError(err, "GetUser, org3User")
-	org4User, err = GetUser(orgTestClient, "org4", org4)
+	org4User, err = GetUser(orgTestClient, "org4", org4, networkName)
 	failTestIfError(err, "GetUser, org4User")
 }
 
@@ -364,7 +368,7 @@ func failTestIfError(err error, msg string) {
 	if err != nil {
 		fmt.Print("============msg========= : [", msg, "], err : ")
 		fmt.Println(err)
-		os.Exit(1)
+		//os.Exit(1)
 	}
 }
 

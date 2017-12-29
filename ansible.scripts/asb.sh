@@ -15,24 +15,24 @@ if [ "$1" = "hosts" ]; then
  sudo cp ./hosts /etc/ansible/hosts
 fi
 
-zookeeper0=""
-zookeeper1=""
-zookeeper2=""
-kafka0=""
-kafka1=""
-kafka2=""
+zookeeper0="101.89.66.163"
+zookeeper1="101.89.66.164"
+zookeeper2="101.89.66.231"
+kafka0="101.89.66.163"
+kafka1="101.89.66.164"
+kafka2="101.89.66.231"
 
-orderer0=""
-orderer1=""
-orderer2=""
+orderer0="101.89.66.163"
+orderer1="101.89.66.164"
+orderer2="101.89.66.231"
 
-ca1_org1=""
-ca2_org2=""
+ca1_org1="101.89.66.183"
+ca2_org2="101.89.66.184"
 
-peer0_org1=""
-peer1_org1=""
-peer0_org2=""
-peer1_org2=""
+peer0_org1="101.89.66.183"
+peer1_org1="101.89.66.184"
+peer0_org2="101.89.66.184"
+peer1_org2="101.89.66.183"
 
 . ../networks/fixtures/configall.sh
 

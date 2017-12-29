@@ -8,14 +8,18 @@
 identities:  # list roles to be used in the policy
     user1: {"role": {"name": "member", "mspId": "Org1MSP"}} # role member in org with mspid Org1MSP
     user2: {"role": {"name": "member", "mspId": "Org2MSP"}}
+    user3: {"role": {"name": "member", "mspId": "Org3MSP"}} # role member in org with mspid Org3MSP
+    user4: {"role": {"name": "member", "mspId": "Org4MSP"}}
     admin1: {"role": {"name": "admin", "mspId": "Org1MSP"}} # admin role.
     admin2: {"role": {"name": "admin", "mspId": "Org2MSP"}}
+    admin3: {"role": {"name": "admin", "mspId": "Org3MSP"}} # admin role.
+    admin4: {"role": {"name": "admin", "mspId": "Org4MSP"}}
 
 policy: # the policy  .. could have been flat but show grouping.
     1-of: # signed by one of these groups  can be <n>-of  where <n> is any digit 2-of, 3-of etc..
       - 1-of:
-        - signed-by: "user1" # a reference to one of the identities defined above.
-        - signed-by: "admin1"
+        - signed-by: "user3" # a reference to one of the identities defined above.
+        - signed-by: "admin3"
       - 1-of:
-        - signed-by: "user2"
-        - signed-by: "admin2"
+        - signed-by: "user4"
+        - signed-by: "admin4"

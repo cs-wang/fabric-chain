@@ -16,9 +16,10 @@ dest_template=docker-compose.yaml
 
 network_name=example
 
-data_dir=\\/home\\/ubuntu\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
+#data_dir=\\/home\\/ubuntu\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
+data_dir=\\/Users\\/wangchangshuai610\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
 
-net_mode=other
+net_mode=local
 peer_log_mode=INFO
 orderer_log_mode=INFO
 
@@ -102,28 +103,28 @@ peer1_org4_port2=14053
 ZOOKEEPERS=(zookeeper0 zookeeper1 zookeeper2)
 KAFKAS=(kafka0 kafka1 kafka2 kafka3)
 
-zookeeper0_ip=30.6.194.14
-zookeeper0_local_ip=30.6.194.14
-zookeeper1_ip=30.6.194.15
-zookeeper1_local_ip=30.6.194.15
-zookeeper2_ip=30.6.194.16
-zookeeper2_local_ip=30.6.194.16
+zookeeper0_ip=127.0.0.1
+zookeeper0_local_ip=127.0.0.1
+zookeeper1_ip=127.0.0.1
+zookeeper1_local_ip=127.0.0.1
+zookeeper2_ip=127.0.0.1
+zookeeper2_local_ip=127.0.0.1
 
-kafka0_ip=30.6.194.17
-kafka0_local_ip=30.6.194.17
+kafka0_ip=127.0.0.1
+kafka0_local_ip=127.0.0.1
 kafka0_port=9092
 
-kafka1_ip=30.6.194.18
-kafka1_local_ip=30.6.194.18
-kafka1_port=9092
+kafka1_ip=127.0.0.1
+kafka1_local_ip=127.0.0.1
+kafka1_port=9094
 
-kafka2_ip=30.6.194.19
-kafka2_local_ip=30.6.194.19
-kafka2_port=9092
+kafka2_ip=127.0.0.1
+kafka2_local_ip=127.0.0.1
+kafka2_port=9096
 
-kafka3_ip=30.6.194.20
-kafka3_local_ip=30.6.194.20
-kafka3_port=9092
+kafka3_ip=127.0.0.1
+kafka3_local_ip=127.0.0.1
+kafka3_port=9098
 
 #########################################
 ################extra_host###############

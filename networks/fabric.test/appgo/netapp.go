@@ -205,10 +205,10 @@ func testmaininvoke(args []string) error {
 	var err error
 	floc := "./../fabric.perf/"
 
+	// invoke file fd get
 	fname := "invoke-kplve-" + strconv.FormatFloat(alivetime, 'E', -1, 64) + "-ccrc-" + strconv.Itoa(loops) + "-"+ time.Now().String()+".log"
 	pfname := floc + fname
 	fabrictxn.Txlogfd, err =os.OpenFile(pfname, os.O_RDWR|os.O_CREATE, 0766);
-
 
 	if err != nil {
 		fmt.Println("Open file failed:", err)
@@ -217,6 +217,7 @@ func testmaininvoke(args []string) error {
 	defer fabrictxn.Txlogfd.Close()
 
 
+	// RES file fd get
 	resfname := floc + "RES-" + fname
 	reslogfd, err := os.OpenFile(resfname, os.O_RDWR|os.O_CREATE, 0766);
 
@@ -225,6 +226,18 @@ func testmaininvoke(args []string) error {
 		return err
 	}
 	defer reslogfd.Close()
+
+	// ERR log file fd get
+	errfname := floc + "FAILEDTX-" + fname
+	fabrictxn.TxErrLogFd, err = os.OpenFile(errfname, os.O_RDWR|os.O_CREATE, 0766);
+
+	if err != nil {
+		fmt.Println("Failed Open file failed:", err)
+		return err
+	}
+	defer fabrictxn.TxErrLogFd.Close()
+
+
 
 	alife := time.Now()
 
@@ -255,7 +268,7 @@ func testmaininvoke(args []string) error {
 
 			go func() {
 				defer wg.Done()
-				funcname := "initMarble"
+				funcname := "postInsurance"
 				testinvoke(funcname)
 			}()
 			time.Sleep(time.Duration(int64(time.Second)/int64(loops)))
@@ -273,7 +286,7 @@ func testmaininvoke(args []string) error {
 			life, elapsed, invokeSuccessNum)
 		fmt.Print(invokeResult)
 		reslogfd.WriteString(invokeResult)
-		break
+		//break
 		if life.Minutes() > alivetime {
 			break
 		}
@@ -288,17 +301,39 @@ func testmaininvoke(args []string) error {
 
 func generateInvokeArgs() []string {
 
-	index, err := readIndex(fname)
-	if err != nil {
-		fmt.Println("getIndex err: ", err)
-		index = 0
-	}
-	marblea := fmt.Sprintf("marblea%d", index)
-	bluea := fmt.Sprintf("bluea%d", index)
-	size := fmt.Sprintf("%d", index + 30)
-	toma := fmt.Sprintf("toma%d",index)
+	//index, err := readIndex(fname)
+	//if err != nil {
+	//	fmt.Println("getIndex err: ", err)
+	//	index = 0
+	//}
+	//marblea := fmt.Sprintf("marblea%d", index)
+	//bluea := fmt.Sprintf("bluea%d", index)
+	//size := fmt.Sprintf("%d", index + 30)
+	//toma := fmt.Sprintf("toma%d",index)
 
-	args := []string{marblea, bluea, size, toma }
+	body := `
+	{
+	"PolicyNo":"123a",
+	"InsurantID":"456",
+	"ServiceAgreementHASH":"ABC",
+	"IMEINo":"mobile1",
+	"ActivateStoreID":"no1",
+	"VerifyResult":"pass",
+	"SignDate":"today",
+	"EffectiveDate":"tomorrow",
+	"ExpirationDate":"the day after tomorrow",
+	"ClaimFlag":"true",
+	"ClaimDate":"now",
+	"ClaimAmount":"1000",
+	"ModifyFlag":"yes",
+	"ExtraData":[
+		{"Key":"helloKey","Data":"hello"},
+		{"Key":"worldKey","Data":"world"},
+		{"Key":"oneKey","Data":"what will be the best one"}
+		]
+	}`
+
+	args := []string{body}
 
 	return args
 }
@@ -428,11 +463,12 @@ func testmainquery(args []string) error {
 
 			go func() {
 				defer wg.Done()
-				funcname := "getMarblesByRange"
-				testquery(funcname)
+				funcname := "getInsurance"
+				//testquery(funcname)
 				testquery2(funcname)
-				testquery3(funcname)
-				testquery4(funcname)
+
+				//testquery3(funcname)
+				//testquery4(funcname)
 
 			}()
 			time.Sleep(time.Duration(int64(time.Second)/int64(loops)))
@@ -444,7 +480,7 @@ func testmainquery(args []string) error {
 
 		life := time.Since(alife)
 		fmt.Println("run time keeps: ", life)
-		break
+		//break
 		if life.Minutes() > alivetime {
 			break
 		}
@@ -458,7 +494,7 @@ func testmainquery(args []string) error {
 }
 
 func generateQueryArgs() []string {
-	args := []string{"marblea300", "marblea400"}
+	args := []string{"123a"}
 	return args
 }
 
@@ -473,7 +509,8 @@ func testquery(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=p0.g1=========result2 after query:", result2)
+	var _ = result2
+	//fmt.Println("=c1=p0.g1=========result2 after query:", result2)
 
 }
 
@@ -488,7 +525,8 @@ func testquery2(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=p0.g2=========result2 after query:", result2)
+	var _ = result2
+	//fmt.Println("=c1=p0.g2=========result2 after query:", result2)
 
 }
 
@@ -503,12 +541,13 @@ func testquery3(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=p0.g3=========result2 after query:", result2)
+	var _ = result2
+	//fmt.Println("=c1=p0.g3=========result2 after query:", result2)
 }
 
 func testquery4(funcname string) {
 
-	fcn := "getMarblesByRange"
+	fcn := funcname
 
 	// Query value on org4 peer
 	orgTestClient.SetUserContext(org4User)
@@ -517,7 +556,8 @@ func testquery4(funcname string) {
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
-	fmt.Println("=c1=p0.g4=========result2 after query:", result2)
+	var _ = result2
+	//fmt.Println("=c1=p0.g4=========result2 after query:", result2)
 }
 
 
