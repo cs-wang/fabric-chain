@@ -1,3 +1,3 @@
 #sudo rm -rf paic_data/
-docker rm -f $(docker ps -aq)
+docker stop $(docker ps -aq)
 

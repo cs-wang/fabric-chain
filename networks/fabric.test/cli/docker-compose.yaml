@@ -32,6 +32,4 @@ services:
         - ./../../fixtures/blockchainkey/channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     networks:
       - paic
-    extra_hosts:
-
 

@@ -25,6 +25,7 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/def/fabapi"
 	//"os"
 	"sync"
+	"os"
 )
 
 var org1 = "peerorg1"
@@ -74,11 +75,11 @@ var org2User ca.User
 var org3User ca.User
 var org4User ca.User
 
-var gchainCodeID = "chaincode_lenovo8"
-var chainCodePath = "lenovo"
+var gchainCodeID = "chaincode_stamper1"
+var chainCodePath = "stamper"
 var chainCodeVersion = "0"
-var endorseAdminUser = &org2AdminUser
-var endorsePeer = &org2TestPeer0
+var endorseAdminUser = &org1AdminUser
+var endorsePeer = &org1TestPeer0
 
 var successNumLock sync.RWMutex
 var invokeSuccessNum int64 = 0
@@ -86,7 +87,7 @@ var invokeSuccessNum int64 = 0
 // initializeFabricClient initializes fabric-sdk-go
 func initializeFabricClient() {
 	// Initialize configuration
-	configImpl, err := config.InitConfig("./../config/config_netapp.yaml")
+	configImpl, err := config.InitConfig("./../config/config_netapp2.yaml")
 	failTestIfError(err, "configImpl, err := config.InitConfig")
 
 	// Instantiate client
@@ -110,7 +111,7 @@ func initializeFabricClient() {
 func createTestChannel() {
 	var err error
 
-	orgTestChannel1, err = channel.NewChannel("lenovochannel1", orgTestClient)
+	orgTestChannel1, err = channel.NewChannel("channel1", orgTestClient)
 	failTestIfError(err, "orgTestChannel1, err = channel.NewChannel")
 	//orgTestChannel2, err = channel.NewChannel("channel2", orgTestClient)
 	//failTestIfError(err, "orgTestChannel2, err = channel.NewChannel")
@@ -143,7 +144,7 @@ func createTestChannel() {
 func loadTestChannel() {
 	var err error
 
-	orgTestChannel1, err = channel.NewChannel("lenovochannel1", orgTestClient)
+	orgTestChannel1, err = channel.NewChannel("channel1", orgTestClient)
 	failTestIfError(err, "orgTestChannel1, err = channel.NewChannel")
 
 	err = orgTestChannel1.AddPeer(org1TestPeer0)
@@ -205,26 +206,26 @@ func installAndInstantiate() {
 	var err error
 	fmt.Println("=================1=================")
 	orgTestClient.SetUserContext(org1AdminUser)
-	err =admin.SendInstallCC(orgTestClient, gchainCodeID,
-		chainCodePath, chainCodeVersion, nil, []fab.Peer{org1TestPeer0}, "./../chaincode")
+	//err =admin.SendInstallCC(orgTestClient, gchainCodeID,
+	//	chainCodePath, chainCodeVersion, nil, []fab.Peer{org1TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org1TestPeer0")
 
 	fmt.Println("=================2=================")
 	orgTestClient.SetUserContext(org2AdminUser)
-	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		chainCodePath, chainCodeVersion, nil, []fab.Peer{org2TestPeer0}, "./../chaincode")
+	//err = admin.SendInstallCC(orgTestClient, gchainCodeID,
+	//	chainCodePath, chainCodeVersion, nil, []fab.Peer{org2TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org2TestPeer0")
 
 	fmt.Println("=================3=================")
 	orgTestClient.SetUserContext(org3AdminUser)
-	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		chainCodePath, chainCodeVersion, nil, []fab.Peer{org3TestPeer0}, "./../chaincode")
+	//err = admin.SendInstallCC(orgTestClient, gchainCodeID,
+	//	chainCodePath, chainCodeVersion, nil, []fab.Peer{org3TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org3TestPeer0")
 
 	fmt.Println("=================4=================")
 	orgTestClient.SetUserContext(org4AdminUser)
-	err = admin.SendInstallCC(orgTestClient, gchainCodeID,
-		chainCodePath, chainCodeVersion, nil, []fab.Peer{org4TestPeer0}, "./../chaincode")
+	//err = admin.SendInstallCC(orgTestClient, gchainCodeID,
+	//	chainCodePath, chainCodeVersion, nil, []fab.Peer{org4TestPeer0}, "./../chaincode")
 	failTestIfError(err, "SendInstallCC org3TestPeer0")
 
 	fmt.Println("111111111111111111111111111111111111")
@@ -332,7 +333,7 @@ func loadOrgPeers() {
 func loadOrgUsers() {
 	var err error
 
-	var networkName = "lenovo"
+	var networkName = "example"
 
 	ordererAdminUser, err = GetOrdererAdmin(orgTestClient, org1, networkName)
 	failTestIfError(err, "GetOrdererAdmin ordererAdminUser")
@@ -368,7 +369,7 @@ func failTestIfError(err error, msg string) {
 	if err != nil {
 		fmt.Print("============msg========= : [", msg, "], err : ")
 		fmt.Println(err)
-		//os.Exit(1)
+		os.Exit(1)
 	}
 }
 

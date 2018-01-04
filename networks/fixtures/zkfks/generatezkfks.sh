@@ -84,10 +84,19 @@ function replacekafkavar()
  sed $OPTS  "s/KAFKA_NAME/${KAFKA_NAME}/g" docker-compose.yaml
  KFK_BK_ID=$((${replacekafkavar##kafka}+1))
  sed $OPTS  "s/KFK_BK_ID/${KFK_BK_ID}/g" docker-compose.yaml
- KFK_ADV_HN=`eval echo '$'"${replacekafkavar}"_"ip"`
+ if [ "$net_mode" = "local" ]; then
+  KFK_ADV_HN="${replacekafkavar}"
+ else
+  KFK_ADV_HN=`eval echo '$'"${replacekafkavar}"_"ip"`
+ fi
  sed $OPTS  "s/KFK_ADV_HN/${KFK_ADV_HN}/g" docker-compose.yaml
- KFK_ADV_PT=`eval echo '$'"${replacekafkavar}"_"port"`
+ if [ "$net_mode" = "local" ]; then
+  KFK_ADV_PT=9092
+ else
+  KFK_ADV_PT=`eval echo '$'"${replacekafkavar}"_"port"`
+ fi
  sed $OPTS  "s/KFK_ADV_PT/${KFK_ADV_PT}/g" docker-compose.yaml
+
  KAFKA_PORT=`eval echo '$'"${replacekafkavar}"_"port"`
  sed $OPTS  "s/KAFKA_PORT/${KAFKA_PORT}/g" docker-compose.yaml
 

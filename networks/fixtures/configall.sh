@@ -20,8 +20,8 @@ network_name=example
 data_dir=\\/Users\\/wangchangshuai610\\/hyperledger\\/fabric-chain\\/networks\\/fixtures
 
 net_mode=local
-peer_log_mode=INFO
-orderer_log_mode=INFO
+peer_log_mode=DEBUG
+orderer_log_mode=DEBUG
 
 LAN_ORG_UNITS=(a_unit)
 a_unit=(zookeeper0 zookeeper1 zookeeper2 kafka0 kafka1 kafka2 kafka3 orderer0 orderer1 orderer2 org1 org2 org3 org4)

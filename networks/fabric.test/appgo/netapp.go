@@ -268,8 +268,15 @@ func testmaininvoke(args []string) error {
 
 			go func() {
 				defer wg.Done()
-				funcname := "postInsurance"
+
+				funcname := "physicalSeal"
 				testinvoke(funcname)
+				//funcname = "printSeal"
+				//testinvoke2(funcname)
+				//funcname = "signatureSeal"
+				//testinvoke3(funcname)
+				funcname = "sealRecord"
+				testinvoke2(funcname)
 			}()
 			time.Sleep(time.Duration(int64(time.Second)/int64(loops)))
 		}
@@ -286,7 +293,7 @@ func testmaininvoke(args []string) error {
 			life, elapsed, invokeSuccessNum)
 		fmt.Print(invokeResult)
 		reslogfd.WriteString(invokeResult)
-		//break
+		break
 		if life.Minutes() > alivetime {
 			break
 		}
@@ -311,32 +318,132 @@ func generateInvokeArgs() []string {
 	//size := fmt.Sprintf("%d", index + 30)
 	//toma := fmt.Sprintf("toma%d",index)
 
-	body := `
-	{
-	"PolicyNo":"123a",
-	"InsurantID":"456",
-	"ServiceAgreementHASH":"ABC",
-	"IMEINo":"mobile1",
-	"ActivateStoreID":"no1",
-	"VerifyResult":"pass",
-	"SignDate":"today",
-	"EffectiveDate":"tomorrow",
-	"ExpirationDate":"the day after tomorrow",
-	"ClaimFlag":"true",
-	"ClaimDate":"now",
-	"ClaimAmount":"1000",
-	"ModifyFlag":"yes",
-	"ExtraData":[
-		{"Key":"helloKey","Data":"hello"},
-		{"Key":"worldKey","Data":"world"},
-		{"Key":"oneKey","Data":"what will be the best one"}
-		]
-	}`
+	body := `{
+        "Serie":"Serie",
+        "Origanization":"Origanization",
+        "SealId":"SealId",
+        "SealType":"SealType",
+        "Type":"Type",
+        "SealName":"SealName",
+        "SealFlag":"SealFlag",
+        "Applicant":"Applicant",
+        "EoaAsn":"EoaAsn",
+        "PassAsn":"PassAsn",
+        "AsSubmitTime":"AsSubmitTime",
+        "TransferSignTime":"TransferSignTime",
+        "TransferType":"TransferType",
+
+        "ApplicationDepartment":"ApplicationDepartment",
+        "SealCenterEnterTime":"SealCenterEnterTime",
+        "SealCenterEnterPerson":"SealCenterEnterPerson",
+        "Transferees":"SealCenterEnterPerson",
+        "TransferDepartment":"TransferDepartment",
+        "TransferTime":"TransferTime",
+        "SealCenterReceiver":"SealCenterReceiver",
+        "SealCenterReceiveTime":"SealCenterReceiveTime",
+
+        "DestroyPrintSeal":"DestroyPrintSeal",
+        "ParceInformation":"ParceInformation",
+        "SealCenterHandler":"SealCenterHandler",
+        "SealCenterSendBackTime":"SealCenterSendBackTime",
+        "OrgUploadDestroyReceipt":"OrgUploadDestroyReceipt",
+        "DestroyReceiptUploadTime":"DestroyReceiptUploadTime",
+
+        "ApplicationOrg":"ApplicationOrg",
+        "ApplicationTime":"ApplicationTime",
+        "loanReason":"loanReason",
+        "loanSignNum":"loanSignNum",
+        "SealCenterLoanHandler":"SealCenterLoanHandler",
+        "SealCenterLoanHandleTime":"SealCenterLoanHandleTime",
+        "SealUseLoanTransfer":"SealUseLoanTransfer",
+        "WhoOutWithSeal":"WhoOutWithSeal",
+        "WhenOutWithSeal":"WhenOutWithSeal",
+        "SealOutSideTime":"SealOutSideTime",
+        "SealOutSideSite":"SealOutSideSite",
+        "SealCenterRemandHandler":"SealCenterRemandHandler",
+        "SealCenterRemandHandleTime":"SealCenterRemandHandleTime",
+        "SealUseRemandTransfer":"SealUseRemandTransfer",
+
+        "SealEnterTime":"SealEnterTime",
+        "SealEnterPerson":"SealEnterPerson",
+        "SealImageHash":"SealImageHash",
+        "ImageUploadTime":"ImageUploadTime",
+        "ImageUploadPerson":"ImageUploadPerson",
+        "ImageUpdateTime":"ImageUpdateTime",
+        "ImageUpdatePerson":"ImageUpdatePerson",
+        "SealDisableTime":"SealDisableTime",
+        "AssociateAddSignNum":"AssociateAddSignNum",
+        "AssociateDestroySignNum":"AssociateDestroySignNum",
+        "ExtraData":[
+                {"key":"key1", "Data":"data1"},
+                {"key":"key2", "Data":"data2"}
+        ]
+}
+`
 
 	args := []string{body}
 
 	return args
 }
+
+func generateInvokeArgs2() []string {
+
+	body := `{
+        "FileNo":"FileNo",
+        "Title":"Title",
+        "SealId":"SealId",
+        "SealName":"SealName",
+        "SealType":"SealType",
+        "SourceSystem":"SourceSystem",
+        "ApplicationNo":"ApplicationNo",
+        "Applicant":"Applicant",
+        "ApplicationOrg":"ApplicationOrg",
+        "ApplicationDate":"ApplicationDate",
+        "AttachmentList":"AttachmentList",
+        "RequisitionStatus":"RequisitionStatus",
+        "MainLeaderShip":"MainLeaderShip",
+        "ApplicationDepartment":"ApplicationDepartment",
+        "ManagerPhone":"ManagerPhone",
+        "SealUseSubmitTime":"SealUseSubmitTime",
+        "SealUseFileTile":"SealUseFileTile",
+        "SealUseFileContent":"SealUseFileContent",
+        "SealUseType":"SealUseType",
+        "IsContract":"IsContract",
+        "FaxMethod":"FaxMethod",
+        "SealCoordinator":"SealCoordinator",
+        "RequirementsDescribe":"RequirementsDescribe",
+        "ReturnAddress":"ReturnAddress",
+        "MailingAddressInformation":"MailingAddressInformation",
+        "SealUseRecord":"SealUseRecord",
+        "ApprovalComments":"ApprovalComments",
+        "FileName":"FileName",
+        "SealUseTime":"SealUseTime",
+        "AttachmentIDBfSealUse":"AttachmentIDBfSealUse",
+        "AttachmentIDAftSealUse":"AttachmentIDAftSealUse",
+        "CertificateType":"CertificateType",
+        "NumOfSealUse":"NumOfSealUse",
+
+        "ExtraData":[
+                {"Key":"key1","Data":"data1"},
+                {"Key":"key2","Data":"data2"}
+        ]
+}
+`
+
+	args := []string{body}
+
+	return args
+}
+
+//func generateInvokeArgs() []string {
+//
+//
+//	body :=
+//
+//		args := []string{body}
+//
+//	return args
+//}
 
 func testinvoke(funcname string) {
 
@@ -358,7 +465,7 @@ func testinvoke2(funcname string) {
 	orgTestClient.SetUserContext(org2User)
 	orgTestChannel1.SetPrimaryPeer(*endorsePeer)
 	_, err := fabrictxn.InvokeChaincode(orgTestClient, orgTestChannel1, []apitxn.ProposalProcessor{*endorsePeer},
-		org2peer0EventHub, gchainCodeID, fcn, generateInvokeArgs(), nil)
+		org2peer0EventHub, gchainCodeID, fcn, generateInvokeArgs2(), nil)
 	failInvokeTestIfError(err, "InvokeChaincode")
 
 	//fmt.Println("=c1=2=========result after change:", result)
@@ -463,12 +570,16 @@ func testmainquery(args []string) error {
 
 			go func() {
 				defer wg.Done()
-				funcname := "getInsurance"
-				//testquery(funcname)
+				funcname := "querySeal"
+				testquery(funcname)
 				testquery2(funcname)
-
 				//testquery3(funcname)
 				//testquery4(funcname)
+				funcname = "queryRecord"
+				//testquery(funcname)
+				//testquery2(funcname)
+				testquery3(funcname)
+				testquery4(funcname)
 
 			}()
 			time.Sleep(time.Duration(int64(time.Second)/int64(loops)))
@@ -494,7 +605,12 @@ func testmainquery(args []string) error {
 }
 
 func generateQueryArgs() []string {
-	args := []string{"123a"}
+	args := []string{"SealId", "SealType"}
+	return args
+}
+
+func generateQueryArgs2() []string {
+	args := []string{"SealId", "SealType", "FileNo"}
 	return args
 }
 
@@ -510,7 +626,7 @@ func testquery(funcname string) {
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
 	var _ = result2
-	//fmt.Println("=c1=p0.g1=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g1=========result2 after query:", result2)
 
 }
 
@@ -526,7 +642,7 @@ func testquery2(funcname string) {
 		gchainCodeID, fcn, generateQueryArgs())
 	failTestIfError(err, "QueryChaincode")
 	var _ = result2
-	//fmt.Println("=c1=p0.g2=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g2=========result2 after query:", result2)
 
 }
 
@@ -539,10 +655,10 @@ func testquery3(funcname string) {
 	orgTestChannel1.SetPrimaryPeer(org3TestPeer0)
 
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
-		gchainCodeID, fcn, generateQueryArgs())
+		gchainCodeID, fcn, generateQueryArgs2())
 	failTestIfError(err, "QueryChaincode")
 	var _ = result2
-	//fmt.Println("=c1=p0.g3=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g3=========result2 after query:", result2)
 }
 
 func testquery4(funcname string) {
@@ -554,10 +670,10 @@ func testquery4(funcname string) {
 	orgTestChannel1.SetPrimaryPeer(org4TestPeer0)
 
 	result2, err := fabrictxn.QueryChaincode(orgTestClient, orgTestChannel1,
-		gchainCodeID, fcn, generateQueryArgs())
+		gchainCodeID, fcn, generateQueryArgs2())
 	failTestIfError(err, "QueryChaincode")
 	var _ = result2
-	//fmt.Println("=c1=p0.g4=========result2 after query:", result2)
+	fmt.Println("=c1=p0.g4=========result2 after query:", result2)
 }
 
 

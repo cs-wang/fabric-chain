@@ -2,6 +2,8 @@
 
 #set -e
 
+. ./../configall.sh
+
 CHANNEL_NAME=$1
 : ${CHANNEL_NAME:="channel1"}
 echo $CHANNEL_NAME
@@ -23,7 +25,7 @@ function generateChannelArtifacts() {
 	echo "##########################################################"
 	echo "#########  Generating Orderer Genesis block ##############"
 	echo "##########################################################"
-	$CONFIGTXGEN -profile OrdererGenesis -outputBlock ./channel-artifacts/orderer.genesis.block
+	$CONFIGTXGEN -profile OrdererGenesis -outputBlock ./channel-artifacts/orderer.genesis.block -channelID $network_name
 
 	echo
 	echo "#################################################################"

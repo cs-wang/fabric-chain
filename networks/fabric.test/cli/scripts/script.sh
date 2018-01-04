@@ -59,9 +59,9 @@ createChannel() {
 	setGlobals 0
 
         if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/$CHANNEL_NAME.tx -t 120 >&log.txt
+		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/$CHANNEL_NAME.tx -t 600 >&log.txt
 	else
-		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/$CHANNEL_NAME.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -t 120 >&log.txt
+		peer channel create -o orderer0.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/$CHANNEL_NAME.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -t 600 >&log.txt
 	fi
 	res=$?
 	cat log.txt

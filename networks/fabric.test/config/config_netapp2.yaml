@@ -34,9 +34,9 @@ client:
   orderers:
    # orderer name
    orderer0:
-    host: "orderer0.example.com"
+    host: "orderer2.example.com"
 #    host: "127.0.0.1"
-    port: 7050
+    port: 9050
     tls:
      # Certificate location absolute path
      certificate: "$GOPATH/src/github.com/hyperledger/fabric-chain/networks/fixtures/blockchainkey/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt"
