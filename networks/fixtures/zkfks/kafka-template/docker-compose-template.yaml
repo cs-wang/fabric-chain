@@ -19,6 +19,8 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=KFK_ADV_HN
       - KAFKA_ADVERTISED_PORT=KFK_ADV_PT
       - KAFKA_LOG_DIRS=/paic/log
+      - KAFKA_LOG_RETENTION_HOURS=12
+      - KAFKA_LOG_RETENTION_BYTES=1073741824
     volumes:
       - "DATA_DIR/paic_data/KAFKA_NAME/runlogs:/opt/kafka/logs"
       - "DATA_DIR/paic_data/KAFKA_NAME/datalogs:/paic/log"

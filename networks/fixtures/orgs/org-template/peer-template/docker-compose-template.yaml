@@ -50,4 +50,5 @@ services:
     ports:
       - PEER_PORT1:7051
       - PEER_PORT2:7053
+      - PEER_PROFILE_PORT:6060
     NETWORKS_C

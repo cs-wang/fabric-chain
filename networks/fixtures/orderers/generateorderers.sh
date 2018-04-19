@@ -32,6 +32,8 @@ function replacevar()
  sed $OPTS  "s/ORDERER_PORT/${ORDERER_PORT}/g" docker-compose.yaml
  ORDERER_IP=`eval echo '$'"${orderer}"_"ip"`
  sed $OPTS  "s/ORDERER_IP/${ORDERER_IP}/g" docker-compose.yaml
+ ORDERER_PROFILE_PORT=`eval echo '$'"${orderer}"_"profile_port"`
+ sed $OPTS  "s/ORDERER_PROFILE_PORT/${ORDERER_PROFILE_PORT}/g" docker-compose.yaml
  ODR_LOGMODE=$orderer_log_mode
  sed $OPTS  "s/ODR_LOGMODE/${ODR_LOGMODE}/g" docker-compose.yaml
 

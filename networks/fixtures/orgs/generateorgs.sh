@@ -57,6 +57,8 @@ function replacevar()
  sed $OPTS  "s/PEER_PORT1/${PEER_PORT1}/g" docker-compose.yaml
  PEER_PORT2=`eval echo '$'"${peer}"_"${org}"_"port2"`
  sed $OPTS  "s/PEER_PORT2/${PEER_PORT2}/g" docker-compose.yaml
+ PEER_PROFILE_PORT=`eval echo '$'"${peer}"_"${org}"_"profile_port"`
+ sed $OPTS  "s/PEER_PROFILE_PORT/${PEER_PROFILE_PORT}/g" docker-compose.yaml
 
  NETWORKS_D=""
  NETWORKS_C=""

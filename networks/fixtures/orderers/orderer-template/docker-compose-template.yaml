@@ -20,6 +20,7 @@ services:
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_PROFILE_ENABLED=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
@@ -29,4 +30,5 @@ services:
       - DATA_DIR/paic_data/ORDERER_NAME.NETWORK_NAME.com/orderer_data:/var/hyperledger/production
     ports:
       - ORDERER_PORT:7050
+      - ORDERER_PROFILE_PORT:6060
     NETWORKS_C

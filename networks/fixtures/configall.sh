@@ -33,14 +33,17 @@ ORDERERS=(orderer0 orderer1 orderer2)
 orderer0_ip=
 orderer0_local_ip=127.0.0.1
 orderer0_port=7050
+orderer0_profile_port=6060
 
 orderer1_ip=
 orderer1_local_ip=127.0.0.1
 orderer1_port=8050
+orderer1_profile_port=6061
 
 orderer2_ip=
 orderer2_local_ip=127.0.0.1
 orderer2_port=9050
+orderer2_profile_port=6062
 
 #########################################
 # orgs
@@ -62,41 +65,49 @@ peer0_org1_ip=
 peer0_org1_local_ip=127.0.0.1
 peer0_org1_port1=7051
 peer0_org1_port2=7053
+peer0_org1_profile_port=6063
 
 peer1_org1_ip=
 peer1_org1_local_ip=127.0.0.1
 peer1_org1_port1=8051
 peer1_org1_port2=8053
+peer1_org1_profile_port=6064
 
 peer0_org2_ip=
 peer0_org2_local_ip=127.0.0.1
 peer0_org2_port1=9051
 peer0_org2_port2=9053
+peer0_org2_profile_port=6065
 
 peer1_org2_ip=
 peer1_org2_local_ip=127.0.0.1
 peer1_org2_port1=10051
 peer1_org2_port2=10053
+peer1_org2_profile_port=6066
 
 peer0_org3_ip=
 peer0_org3_local_ip=127.0.0.1
 peer0_org3_port1=11051
 peer0_org3_port2=11053
+peer0_org3_profile_port=6067
 
 peer1_org3_ip=
 peer1_org3_local_ip=127.0.0.1
 peer1_org3_port1=12051
 peer1_org3_port2=12053
+peer1_org3_profile_port=6068
 
 peer0_org4_ip=
 peer0_org4_local_ip=127.0.0.1
 peer0_org4_port1=13051
 peer0_org4_port2=13053
+peer0_org4_profile_port=6069
 
 peer1_org4_ip=
 peer1_org4_local_ip=127.0.0.1
 peer1_org4_port1=14051
 peer1_org4_port2=14053
+peer1_org4_profile_port=6070
 #########################################
 # zkfks
 #########################################
